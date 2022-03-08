@@ -2,48 +2,55 @@
 
 class User
 {
-    private $id;
-    private $login;
-    private $password;
-    private $mail;
+    private int $id;
+    private string $login;
+    private string $password;
+    private string $mail;
 
-    public function __construct($login, $password, $mail){
+    public function __construct(string $login, string $password, string $mail)
+    {
         $this->login = $login;
         $this->password = $password;
         $this->mail = $mail;
     }
 
-    public function getId(){
+    public function getId(): int
+    {
         return $this->id;
     }
 
-    public function setId($id){
+    public function setId(int $id)
+    {
         return $this->id = $id;
     }
 
-    public function getLogin(){
+    public function getLogin(): string
+    {
         return $this->login;
     }
 
-    public function setLogin($login){
+    public function setLogin(string $login)
+    {
         return $this->login = $login;
     }
 
-    public function getPassword(){
+    public function getPassword(): string
+    {
         return $this->password;
     }
 
-    public function setPassword($password){
+    public function setPassword(string $password)
+    {
         return $this->password = $password;
     }
 
-    public function getMail(){
+    public function getMail(): string
+    {
         return $this->mail;
     }
 
-    public function setMail($mail){
+    public function setMail(string $mail)
+    {
         return $this->mail = $mail;
     }
-
-    
 }
