@@ -1,11 +1,5 @@
 <?php
 include_once('Model/User.php');
-include_once('Controller/UserController.php');
-
-if (isset($_GET['action'])) {
-    UserController::action($_GET);
-}
-
 ?>
 
 <table>
@@ -32,7 +26,7 @@ if (isset($_GET['action'])) {
             <td><?= $user->getMail() ?></td>
             <td><?= $user->getPassword() ?></td>
             <td>
-                <a href=".?action=delete&id=<?= $user->getId() ?>">Supprimer</a>
+                <a href="/users/delete/<?= $user->getId() ?>">Supprimer</a>
             </td>
         </tr>
     <?php } ?>
