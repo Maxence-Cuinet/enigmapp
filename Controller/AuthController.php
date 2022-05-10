@@ -1,6 +1,6 @@
 <?php
 
-class AuthControler
+class AuthController
 {
     public function login(string $login, string $password)
     {
