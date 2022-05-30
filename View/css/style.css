@@ -1,0 +1,21 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: whitesmoke;
+}
+
+#registerForm {
+    margin: 50px auto;
+}
+
+@media (min-width: 768px) {
+    #registerForm {
+        width: 85%;
+    }
+}
+
+@media (min-width: 992px) {
+    #registerForm {
+        width: 70%;
+    }
+}
