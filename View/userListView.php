@@ -9,8 +9,8 @@ include_once('Model/User.php');
         </tr>
         <tr>
             <th>Id</th>
-            <th>Login</th>
             <th>Mail</th>
+            <th>Login</th>
             <th>Password</th>
             <th>Actions</th>
         </tr>
@@ -22,8 +22,8 @@ include_once('Model/User.php');
         ?>
         <tr>
             <td><?= $user->getId() ?></td>
-            <td><?= $user->getLogin() ?></td>
             <td><?= $user->getMail() ?></td>
+            <td><?= $user->getUsername() ?></td>
             <td><?= $user->getPassword() ?></td>
             <td>
                 <a href="/users/delete/<?= $user->getId() ?>">Supprimer</a>
