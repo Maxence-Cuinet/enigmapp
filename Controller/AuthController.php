@@ -1,10 +1,16 @@
 <?php
+include_once('Model/User.php');
 
 class AuthController
 {
     public static function inscriptionView()
     {
-        require __DIR__ . '/../View/inscription.php';
+        require __DIR__ . '/../view/inscriptionView.php';
+    }
+
+    public static function connectionView()
+    {
+        require __DIR__ . '/../view/connectionView.php';
     }
 
     public static function register()
@@ -12,9 +18,16 @@ class AuthController
         User::create($_POST['mail'], $_POST['username'], hash('sha256', $_POST['password']));
     }
 
-    public function login(string $login, string $password)
+    public static function login()
     {
-        // @todo connexion
-        $_SESSION["is_logged"] = true;
+        $user = User::findByMail($_POST['login']);
+        if (!$user) {
+            $user = User::findByUsername($_POST['login']);
+        }
+
+        if ($user && hash('sha256', $_POST['password']) === $user->getPassword()) {
+            $_SESSION['is_logged'] = true;
+            $_SESSION['user_id'] = $user->getId();
+        }
     }
 }

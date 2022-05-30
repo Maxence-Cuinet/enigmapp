@@ -17,6 +17,13 @@ switch ($request[0]) {
         }
         AuthController::inscriptionView();
         break;
+    case 'connection':
+        switch ($request[1] ?? '') {
+            case 'login':
+                AuthController::login();
+        }
+        AuthController::connectionView();
+        break;
     case 'users':
         switch ($request[1] ?? '') {
             case 'delete':

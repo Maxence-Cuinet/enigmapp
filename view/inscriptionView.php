@@ -1,11 +1,7 @@
-<?php
-include_once('Model/User.php');
-?>
-
 <html lang="fr">
 <?php include_once('template/htmlHead.php') ?>
 <body>
-<script src="/View/js/formValidator.js"></script>
+<script src="/view/js/formValidator.js"></script>
 
 <div class="container">
     <form id="registerForm" action="/register/submit" method="post">

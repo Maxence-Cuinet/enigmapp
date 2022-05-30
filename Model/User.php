@@ -30,7 +30,7 @@ class User
 
     public function setMail(string $mail)
     {
-        return $this->mail = $mail;
+        $this->mail = $mail;
     }
 
     public function getUsername(): string
@@ -40,7 +40,7 @@ class User
 
     public function setUsername(string $username)
     {
-        return $this->username = $username;
+        $this->username = $username;
     }
 
     public function getPassword(): string
@@ -50,7 +50,7 @@ class User
 
     public function setPassword(string $password)
     {
-        return $this->password = $password;
+        $this->password = $password;
     }
 
     public function isAdmin(): bool
@@ -58,6 +58,10 @@ class User
         return $this->is_admin;
     }
 
+    /**
+     * @param int $id
+     * @return User|bool
+     */
     public static function findById(int $id)
     {
         $pdo = Connexion::connect();
@@ -65,9 +69,13 @@ class User
         $req->execute(['id' => $id]);
 
         $user = $req->fetch();
-        return new User($user['id'], $user['mail'], $user['username'], $user['password'], $user['is_admin']);
+        return $user ? new User($user['id'], $user['mail'], $user['username'], $user['password'], $user['is_admin']) : false;
     }
 
+    /**
+     * @param string $username
+     * @return User|bool
+     */
     public static function findByUsername(string $username)
     {
         $pdo = Connexion::connect();
@@ -75,9 +83,13 @@ class User
         $req->execute(['username' => $username]);
 
         $user = $req->fetch();
-        return new User($user['id'], $user['mail'], $user['username'], $user['password'], $user['is_admin']);
+        return $user ? new User($user['id'], $user['mail'], $user['username'], $user['password'], $user['is_admin']) : false;
     }
 
+    /**
+     * @param string $mail
+     * @return User|bool
+     */
     public static function findByMail(string $mail)
     {
         $pdo = Connexion::connect();
@@ -85,10 +97,11 @@ class User
         $req->execute(['mail' => $mail]);
 
         $user = $req->fetch();
-        return new User($user['id'], $user['mail'], $user['username'], $user['password'], $user['is_admin']);
+        return $user ? new User($user['id'], $user['mail'], $user['username'], $user['password'], $user['is_admin']) : false;
     }
 
-    public static function findAll() {
+    public static function findAll(): array
+    {
         $pdo = Connexion::connect();
         $req = $pdo->prepare('SELECT * FROM user');
         $req->execute();

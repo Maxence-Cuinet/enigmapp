@@ -5,7 +5,7 @@ class UserController
 {
     public static function index()
     {
-        require __DIR__ . '/../View/userListView.php';
+        require __DIR__ . '/../view/userListView.php';
     }
 
     public static function action($action, $params) {
