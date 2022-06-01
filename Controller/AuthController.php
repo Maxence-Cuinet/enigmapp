@@ -15,7 +15,11 @@ class AuthController
 
     public static function register()
     {
-        User::create($_POST['mail'], $_POST['username'], hash('sha256', $_POST['password']));
+        $rep = User::create($_POST['mail'], $_POST['username'], hash('sha256', $_POST['password']));
+        if ($rep) {
+            $_POST['login'] = $_POST['mail'];
+            self::login();
+        }
     }
 
     public static function login()

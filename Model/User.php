@@ -114,22 +114,22 @@ class User
         return $users;
     }
 
-    public static function create(string $mail, string $username, string $password)
+    public static function create(string $mail, string $username, string $password): bool
     {
         $pdo = Connexion::connect();
         $req = $pdo->prepare('INSERT INTO user (mail, username, password) VALUES (:mail, :username, :password)');
-        $req->execute([
+        return $req->execute([
             'mail' => $mail,
             'username' => $username,
             'password' => $password
         ]);
     }
 
-    public static function createAdmin(string $mail, string $username, string $password)
+    public static function createAdmin(string $mail, string $username, string $password): bool
     {
         $pdo = Connexion::connect();
         $req = $pdo->prepare('INSERT INTO user (mail, username, password, is_admin) VALUES (:mail, :username, :password, 1)');
-        $req->execute([
+        return $req->execute([
             'mail' => $mail,
             'username' => $username,
             'password' => $password
