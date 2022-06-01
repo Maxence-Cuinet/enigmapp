@@ -1,3 +1,9 @@
+<?php
+if (!isset($_GET['user_id']) || !isset($_GET['secret'])) {
+    AuthController::redirectIfNotLogged();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <?php include_once('template/head.php') ?>

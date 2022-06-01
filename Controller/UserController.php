@@ -21,10 +21,9 @@ class UserController
         }
 
         $user = User::findById($_POST['userId']);
-        if ($_POST['secret'] === $user->getPassword()) {
+        if ($user && $_POST['secret'] === $user->getPassword()) {
             User::updatePassword($_POST['userId'], hash('sha256', $_POST['password']));
-            AuthController::logout();
-            header("Location: /connection");
+            AuthController::isLogged() ? header("Location: /account") : header("Location: /connection");
         }
     }
 }
