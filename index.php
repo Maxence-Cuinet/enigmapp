@@ -3,6 +3,7 @@ session_start();
 
 require_once 'Controller/AuthController.php';
 require_once 'Controller/HomeController.php';
+require_once 'Controller/UserController.php';
 
 $request = $_SERVER['REQUEST_URI'];
 $request = explode('?', $request)[0];
@@ -40,9 +41,12 @@ switch ($request[0]) {
     case 'change-password':
         switch ($request[1] ?? '') {
             case 'update':
-                AuthController::changePassword();
+                UserController::changePassword();
         }
-        AuthController::changePasswordView();
+        UserController::changePasswordView();
+        break;
+    case 'account':
+        UserController::index();
         break;
     default:
         http_response_code(404);

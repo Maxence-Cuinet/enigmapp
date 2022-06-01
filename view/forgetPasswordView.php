@@ -13,7 +13,7 @@
         <?php } ?>
         <div class="mb-3">
             <label for="mail" class="form-label">Email</label>
-            <input type="text" class="form-control" id="mail" name="mail" required>
+            <input type="text" class="form-control" id="mail" name="mail" required autofocus>
         </div>
         <button type="submit" class="btn btn-primary">Réinitialiser le mot de passe</button>
         <div class="mt-3">

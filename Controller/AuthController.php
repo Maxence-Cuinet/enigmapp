@@ -18,11 +18,6 @@ class AuthController
         require __DIR__ . '/../view/forgetPasswordView.php';
     }
 
-    public static function changePasswordView()
-    {
-        require __DIR__ . '/../view/changePasswordView.php';
-    }
-
     public static function register()
     {
         $rep = User::create($_POST['mail'], $_POST['username'], hash('sha256', $_POST['password']));
@@ -44,6 +39,7 @@ class AuthController
             $_SESSION['user']['id'] = $user->getId();
             $_SESSION['user']['mail'] = $user->getMail();
             $_SESSION['user']['username'] = $user->getUsername();
+            $_SESSION['user']['is_admin'] = $user->isAdmin();
             header("Location: /");
         }
     }
@@ -57,17 +53,28 @@ class AuthController
 
     public static function sendResetPasswordLink()
     {
-        $to = $_POST['mail'];
-        $subject = 'Réinitialisation du mot de passe';
-        $message = 'test de mail';
+//        $to = $_POST['mail'];
+//        $subject = 'Réinitialisation du mot de passe';
+//        $message = 'test de mail';
 //        mail($to, $subject, $message);
+//        $_POST['mail_send'] = true;
 
-        $_POST['mail_send'] = true;
+        $user = User::findByMail($_POST['mail']);
+        if ($user) {
+            //@todo faire fonctionner l'envoie de mail et envoyer ce lien là
+            header("Location: /change-password?user_id={$user->getId()}&secret={$user->getPassword()}");
+        }
     }
 
-    public static function changePassword()
+    public static function isLogged(): bool
     {
-        User::updatePassword($_POST['userId'], hash('sha256', $_POST['password']));
-        header("Location: /connection");
+        return isset($_SESSION['is_logged']) && $_SESSION['is_logged'];
+    }
+
+    public static function redirectIfNotLogged()
+    {
+        if (!self::isLogged()) {
+            header("Location: /");
+        }
     }
 }

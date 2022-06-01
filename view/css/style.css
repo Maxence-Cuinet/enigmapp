@@ -13,6 +13,10 @@ html, body {
 }
 
 @media (min-width: 768px) {
+    form {
+        width: 70%;
+    }
+
     .authForm {
         width: 85%;
         margin: auto;
@@ -20,6 +24,10 @@ html, body {
 }
 
 @media (min-width: 992px) {
+    form {
+        width: 50%;
+    }
+
     .authForm {
         width: 65%;
     }
