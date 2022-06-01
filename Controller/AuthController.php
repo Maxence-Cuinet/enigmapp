@@ -18,6 +18,11 @@ class AuthController
         require __DIR__ . '/../view/forgetPasswordView.php';
     }
 
+    public static function changePasswordView()
+    {
+        require __DIR__ . '/../view/changePasswordView.php';
+    }
+
     public static function register()
     {
         $rep = User::create($_POST['mail'], $_POST['username'], hash('sha256', $_POST['password']));
@@ -39,8 +44,8 @@ class AuthController
             $_SESSION['user']['id'] = $user->getId();
             $_SESSION['user']['mail'] = $user->getMail();
             $_SESSION['user']['username'] = $user->getUsername();
+            header("Location: /");
         }
-        header("Location: /");
     }
 
     public static function logout()
@@ -57,6 +62,12 @@ class AuthController
         $message = 'test de mail';
 //        mail($to, $subject, $message);
 
-        $_POST['mailSend'] = true;
+        $_POST['mail_send'] = true;
+    }
+
+    public static function changePassword()
+    {
+        User::updatePassword($_POST['userId'], hash('sha256', $_POST['password']));
+        header("Location: /connection");
     }
 }

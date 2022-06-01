@@ -148,6 +148,16 @@ class User
         ]);
     }
 
+    public static function updatePassword(int $id, string $password)
+    {
+        $pdo = Connexion::connect();
+        $req = $pdo->prepare('UPDATE user SET password = :password WHERE id = :id');
+        $req->execute([
+            'password' => $password,
+            'id' => $id
+        ]);
+    }
+
     public static function delete(int $id)
     {
         $pdo = Connexion::connect();

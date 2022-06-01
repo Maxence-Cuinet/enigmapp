@@ -37,6 +37,13 @@ switch ($request[0]) {
         }
         AuthController::forgetPasswordView();
         break;
+    case 'change-password':
+        switch ($request[1] ?? '') {
+            case 'update':
+                AuthController::changePassword();
+        }
+        AuthController::changePasswordView();
+        break;
     default:
         http_response_code(404);
         break;

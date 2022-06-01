@@ -6,7 +6,7 @@
 
 <section id="pageContent" class="container">
     <form class="authForm m-auto" action="/forget-password/send-mail" method="post">
-        <?php if (isset($_POST['mailSend']) && $_POST['mailSend']) { ?>
+        <?php if (isset($_POST['mail_send']) && $_POST['mail_send']) { ?>
             <div class="alert alert-success" role="alert">
                 Email envoyé avec succés !
             </div>
