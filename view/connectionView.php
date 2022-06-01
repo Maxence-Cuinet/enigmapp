@@ -1,8 +1,11 @@
+<!DOCTYPE html>
 <html lang="fr">
-<?php include_once('template/htmlHead.php') ?>
+<?php include_once('template/head.php') ?>
 <body>
-<div class="container">
-    <form class="authForm" action="/connection/login" method="post">
+<?php include_once('template/nav.php') ?>
+
+<section id="pageContent" class="container">
+    <form class="authForm m-auto" action="/connection/login" method="post">
         <div class="mb-3">
             <label for="login" class="form-label">E-mail ou nom d'utilisateur</label>
             <input type="text" class="form-control" id="login" name="login" required>
@@ -13,7 +16,8 @@
         </div>
         <button type="submit" class="btn btn-primary">Se connecter</button>
     </form>
-</div>
+</section>
 
+<?php include_once('template/footer.php') ?>
 </body>
 </html>

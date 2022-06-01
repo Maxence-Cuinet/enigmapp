@@ -1,10 +1,12 @@
+<!DOCTYPE html>
 <html lang="fr">
-<?php include_once('template/htmlHead.php') ?>
+<?php include_once('template/head.php') ?>
 <body>
 <script src="/view/js/formValidator.js"></script>
+<?php include_once('template/nav.php') ?>
 
-<div class="container">
-    <form class="authForm" action="/register/submit" method="post">
+<section id="pageContent" class="container">
+    <form class="authForm m-auto" action="/register/submit" method="post">
         <div class="mb-3">
             <label for="mail" class="form-label">E-mail</label>
             <input type="email" class="form-control" id="mail" name="mail" placeholder="name@example.com" required autofocus>
@@ -23,7 +25,8 @@
         </div>
         <button type="submit" class="btn btn-primary">S'inscrire</button>
     </form>
-</div>
+</section>
 
+<?php include_once('template/footer.php') ?>
 </body>
 </html>

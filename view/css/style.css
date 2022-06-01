@@ -2,10 +2,14 @@ html, body {
     margin: 0;
     padding: 0;
     background-color: whitesmoke;
+    display: flex;
+    flex-direction:column;
+    min-height:100vh;
 }
 
-.authForm {
-    margin: 50px auto;
+#pageContent {
+    flex: 1;
+    padding: 3rem 0;
 }
 
 @media (min-width: 768px) {

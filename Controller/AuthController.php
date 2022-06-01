@@ -27,7 +27,17 @@ class AuthController
 
         if ($user && hash('sha256', $_POST['password']) === $user->getPassword()) {
             $_SESSION['is_logged'] = true;
-            $_SESSION['user_id'] = $user->getId();
+            $_SESSION['user']['id'] = $user->getId();
+            $_SESSION['user']['mail'] = $user->getMail();
+            $_SESSION['user']['username'] = $user->getUsername();
         }
+        header("Location: /");
+    }
+
+    public static function logout()
+    {
+        unset($_SESSION['user']);
+        $_SESSION['is_logged'] = false;
+        header("Location: /");
     }
 }
