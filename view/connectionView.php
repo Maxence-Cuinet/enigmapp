@@ -15,9 +15,9 @@
             <input type="password" class="form-control" id="password" name="password" required>
         </div>
         <button type="submit" class="btn btn-primary">Se connecter</button>
-        <div class="mt-3">
-            <a href="/register" class="text-decoration-none">Pas encore de compte ?</a>
-            <a href="/forget-password" class="text-decoration-none ms-4">Mot de passe oublié ?</a>
+        <div class="mt-3 d-flex flex-column flex-sm-row">
+            <a href="/register" class="text-decoration-none me-4 mb-2">Pas encore de compte ?</a>
+            <a href="/forget-password" class="text-decoration-none">Mot de passe oublié ?</a>
         </div>
         <div class="mt-3">
         </div>

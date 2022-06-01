@@ -6,7 +6,7 @@
 <?php include_once('template/nav.php') ?>
 
 <section id="pageContent" class="container">
-    <form class="authForm m-auto" action="/register/submit" method="post">
+    <form class="authForm" action="/register/submit" method="post">
         <div class="mb-3">
             <label for="mail" class="form-label">Email</label>
             <input type="email" class="form-control" id="mail" name="mail" placeholder="name@example.com" required autofocus>

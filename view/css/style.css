@@ -9,17 +9,18 @@ html, body {
 
 #pageContent {
     flex: 1;
-    padding: 3rem 0;
+    padding: 3rem 1.5rem;
 }
 
 @media (min-width: 768px) {
     .authForm {
         width: 85%;
+        margin: auto;
     }
 }
 
 @media (min-width: 992px) {
     .authForm {
-        width: 70%;
+        width: 65%;
     }
 }
