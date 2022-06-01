@@ -13,6 +13,11 @@ class AuthController
         require __DIR__ . '/../view/connectionView.php';
     }
 
+    public static function forgetPasswordView()
+    {
+        require __DIR__ . '/../view/forgetPasswordView.php';
+    }
+
     public static function register()
     {
         $rep = User::create($_POST['mail'], $_POST['username'], hash('sha256', $_POST['password']));
@@ -43,5 +48,15 @@ class AuthController
         unset($_SESSION['user']);
         $_SESSION['is_logged'] = false;
         header("Location: /");
+    }
+
+    public static function sendResetPasswordLink()
+    {
+        $to = $_POST['mail'];
+        $subject = 'Réinitialisation du mot de passe';
+        $message = 'test de mail';
+//        mail($to, $subject, $message);
+
+        $_POST['mailSend'] = true;
     }
 }

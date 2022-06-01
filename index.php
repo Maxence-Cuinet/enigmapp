@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-require_once 'Controller/UserController.php';
 require_once 'Controller/AuthController.php';
 require_once 'Controller/HomeController.php';
 
@@ -31,12 +30,12 @@ switch ($request[0]) {
     case 'logout':
         AuthController::logout();
         break;
-    case 'users':
+    case 'forget-password':
         switch ($request[1] ?? '') {
-            case 'delete':
-                UserController::action('delete', ['id' => $request[2] ?? 0]);
+            case 'send-mail':
+                AuthController::sendResetPasswordLink();
         }
-        UserController::index();
+        AuthController::forgetPasswordView();
         break;
     default:
         http_response_code(404);

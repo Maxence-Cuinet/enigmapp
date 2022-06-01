@@ -8,7 +8,7 @@
 <section id="pageContent" class="container">
     <form class="authForm m-auto" action="/register/submit" method="post">
         <div class="mb-3">
-            <label for="mail" class="form-label">E-mail</label>
+            <label for="mail" class="form-label">Email</label>
             <input type="email" class="form-control" id="mail" name="mail" placeholder="name@example.com" required autofocus>
         </div>
         <div class="mb-3">
@@ -24,6 +24,9 @@
             <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
         </div>
         <button type="submit" class="btn btn-primary">S'inscrire</button>
+        <div class="mt-3">
+            <a href="/connection" class="text-decoration-none">Déjà un compte ?</a>
+        </div>
     </form>
 </section>
 
