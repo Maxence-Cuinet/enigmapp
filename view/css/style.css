@@ -4,18 +4,18 @@ html, body {
     background-color: whitesmoke;
 }
 
-#registerForm {
+.authForm {
     margin: 50px auto;
 }
 
 @media (min-width: 768px) {
-    #registerForm {
+    .authForm {
         width: 85%;
     }
 }
 
 @media (min-width: 992px) {
-    #registerForm {
+    .authForm {
         width: 70%;
     }
 }

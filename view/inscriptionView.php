@@ -4,7 +4,7 @@
 <script src="/view/js/formValidator.js"></script>
 
 <div class="container">
-    <form id="registerForm" action="/register/submit" method="post">
+    <form class="authForm" action="/register/submit" method="post">
         <div class="mb-3">
             <label for="mail" class="form-label">E-mail</label>
             <input type="email" class="form-control" id="mail" name="mail" placeholder="name@example.com" required autofocus>

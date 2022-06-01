@@ -2,7 +2,7 @@
 <?php include_once('template/htmlHead.php') ?>
 <body>
 <div class="container">
-    <form id="registerForm" action="/connection/login" method="post">
+    <form class="authForm" action="/connection/login" method="post">
         <div class="mb-3">
             <label for="login" class="form-label">E-mail ou nom d'utilisateur</label>
             <input type="text" class="form-control" id="login" name="login" required>
