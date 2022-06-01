@@ -14,7 +14,7 @@ $isLogged = $_SESSION['is_logged'] ?? false;
                         <i class="fa-solid fa-user me-2"></i><?= $_SESSION['user']['username'] ?>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/account">Mon compte</a></li>
+                        <li><a class="dropdown-item" href="#">Mon compte</a></li>
                         <li><a class="dropdown-item" href="/logout">Déconnexion</a></li>
                     </ul>
                 </li>
