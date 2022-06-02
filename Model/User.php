@@ -136,7 +136,7 @@ class User
         ]);
     }
 
-    public static function update(int $id, string $mail, string $username, string $password)
+    public function update(string $mail, string $username, string $password)
     {
         $pdo = Connexion::connect();
         $req = $pdo->prepare('UPDATE user SET mail = :mail, username = :username, password = :password WHERE id = :id');
@@ -144,24 +144,19 @@ class User
             'mail' => $mail,
             'username' => $username,
             'password' => $password,
-            'id' => $id
+            'id' => $this->getId()
         ]);
     }
 
-    public static function updatePassword(int $id, string $password)
+    public function updatePassword(string $password)
     {
-        $pdo = Connexion::connect();
-        $req = $pdo->prepare('UPDATE user SET password = :password WHERE id = :id');
-        $req->execute([
-            'password' => $password,
-            'id' => $id
-        ]);
+        $this->update($this->getMail(), $this->getUsername(), $password);
     }
 
-    public static function delete(int $id)
+    public function delete()
     {
         $pdo = Connexion::connect();
         $req = $pdo->prepare('DELETE FROM user WHERE id = :id');
-        $req->execute(['id' => $id]);
+        $req->execute(['id' => $this->getId()]);
     }
 }
