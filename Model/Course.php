@@ -22,11 +22,6 @@ class Course
         return $this->id;
     }
 
-    public function setId(int $id)
-    {
-        $this->id = $id;
-    }
-
     public function getName(): string
     {
         return $this->name;
@@ -59,7 +54,7 @@ class Course
         return $this->updated_at;
     }
 
-    public static function findById(int $id)
+    public static function findById(int $id): Course
     {
         $pdo = Connexion::connect();
         $req = $pdo->prepare('SELECT * FROM course WHERE id = :id');
@@ -88,14 +83,15 @@ class Course
         return $courses;
     }
 
-    public static function create(string $name, ?string $url_img)
+    public static function create(string $name, ?string $url_img, ?string $description)
     {
         $date = new DateTime();
         $pdo = Connexion::connect();
-        $req = $pdo->prepare('INSERT INTO course (name, url_img, created_at, updated_at) VALUES (:name, :url_img, :created_at, :updated_at)');
+        $req = $pdo->prepare('INSERT INTO course (name, url_img, description, created_at, updated_at) VALUES (:name, :url_img, :description, :created_at, :updated_at)');
         $req->execute([
             'name' => $name,
             'url_img' => $url_img,
+            'description' => $description,
             'created_at' => $date->format("Y-m-d H:i:s"),
             'updated_at' => $date->format("Y-m-d H:i:s")
         ]);

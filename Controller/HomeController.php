@@ -8,11 +8,10 @@ class HomeController
     {
         $page = array_key_exists('page', $_GET) ? $_GET['page'] : 1;
         $count = Course::count();
-        $max = round($count/8);
-        if($page > $max){
+        $max = ceil($count/8);
+        if ($page > $max) {
             header("Location: /home?page=".$max);
-        }
-        if($page < 1){
+        } else if ($page < 1) {
             header("Location: /home?page=1");
         }
         $_POST['page'] = $page;

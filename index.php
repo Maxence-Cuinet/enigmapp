@@ -53,6 +53,10 @@ switch ($request[0]) {
         UserController::delete();
         break;
     case 'add-course':
+        switch ($request[1] ?? '') {
+            case 'submit':
+                CourseController::addCourse();
+        }
         CourseController::addCourseView();
         break;
     default:
