@@ -10,6 +10,20 @@ AuthController::redirectIfNotLogged(true);
 
 <section id="pageContent" class="container">
     <h3>Création d'un jeu de piste</h3>
+    <form class="mt-4 mb-5">
+        <div class="mb-3">
+            <label for="name" class="form-label fw-bold">Nom du jeu de piste</label>
+            <input type="text" class="form-control" id="name" name="name">
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label fw-bold">Image</label>
+            <input type="file" class="form-control" id="image" name="image" accept="image/png, image/jpeg">
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label fw-bold">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+        </div>
+    </form>
 </section>
 
 <?php include_once('template/footer.php') ?>

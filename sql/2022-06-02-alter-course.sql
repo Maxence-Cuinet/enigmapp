@@ -1,0 +1,1 @@
+ALTER TABLE course ADD url_img varchar(50), ADD created_at DATETIME not null, ADD updated_at DATETIME not null;
