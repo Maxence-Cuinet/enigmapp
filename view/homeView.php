@@ -5,6 +5,12 @@
 <?php include_once('template/nav.php') ?>
 
 <section id="pageContent" class="container px-4 px-lg-5 mt-5">
+    <div class="d-flex mb-4">
+        <h3>Jeux de pistes</h3>
+        <?php if (AuthController::isLogged(true)) { ?>
+            <a type="button" class="btn btn-outline-dark ms-3" href="/add-course"><i class="fa-solid fa-plus me-2"></i><b>Ajouter</b></a>
+        <?php } ?>
+    </div>
     <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
         <?php for ($i = 1; $i <= 7; $i++) { ?>
             <div class="col mb-5">

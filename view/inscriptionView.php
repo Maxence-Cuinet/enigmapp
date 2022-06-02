@@ -24,6 +24,12 @@
             <label for="confirmPassword" class="form-label">Confirmation du mot de passe</label>
             <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
         </div>
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="isAdmin" name="isAdmin" value="true">
+            <label class="form-check-label" for="isAdmin">
+                Créateur de contenu ?
+            </label>
+        </div>
         <button type="submit" class="btn btn-primary">S'inscrire</button>
         <div class="mt-3">
             <a href="/connection" class="text-decoration-none">Déjà un compte ?</a>
