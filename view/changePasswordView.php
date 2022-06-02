@@ -13,6 +13,7 @@ if (!isset($_GET['user_id']) || !isset($_GET['secret'])) {
 
 <section id="pageContent" class="container">
     <form class="authForm m-auto" action="/change-password/update" method="post">
+        <?php include_once('template/displayErrorsSuccess.php') ?>
         <?php if (AuthController::isLogged()) { ?>
             <div class="mb-3">
                 <label for="actualPassword" class="form-label">Mot de passe actuel</label>

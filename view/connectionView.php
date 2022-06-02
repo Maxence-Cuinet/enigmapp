@@ -6,9 +6,10 @@
 
 <section id="pageContent" class="container">
     <form class="authForm m-auto" action="/connection/login" method="post">
+        <?php include_once('template/displayErrorsSuccess.php') ?>
         <div class="mb-3">
             <label for="login" class="form-label">Email ou nom d'utilisateur</label>
-            <input type="text" class="form-control" id="login" name="login" required autofocus>
+            <input type="text" class="form-control" id="login" name="login" value="<?= $_POST['login'] ?? null ?>" required autofocus>
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Mot de passe</label>

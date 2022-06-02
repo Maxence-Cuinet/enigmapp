@@ -7,13 +7,14 @@
 
 <section id="pageContent" class="container">
     <form class="authForm" action="/register/submit" method="post">
+        <?php include_once('template/displayErrorsSuccess.php') ?>
         <div class="mb-3">
             <label for="mail" class="form-label">Email</label>
-            <input type="email" class="form-control" id="mail" name="mail" placeholder="name@example.com" required autofocus>
+            <input type="email" class="form-control" id="mail" name="mail" placeholder="name@example.com" value="<?= $_POST['mail'] ?? null ?>" required autofocus>
         </div>
         <div class="mb-3">
             <label for="username" class="form-label">Nom d'utilisateur</label>
-            <input type="text" class="form-control" id="username" name="username" required>
+            <input type="text" class="form-control" id="username" name="username" value="<?= $_POST['username'] ?? null ?>" required>
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Mot de passe</label>
@@ -22,6 +23,12 @@
         <div class="mb-3">
             <label for="confirmPassword" class="form-label">Confirmation du mot de passe</label>
             <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+        </div>
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="isAdmin" name="isAdmin" value="true">
+            <label class="form-check-label" for="isAdmin">
+                Créateur de contenu ?
+            </label>
         </div>
         <button type="submit" class="btn btn-primary">S'inscrire</button>
         <div class="mt-3">

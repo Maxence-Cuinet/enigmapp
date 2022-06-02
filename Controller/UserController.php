@@ -24,6 +24,18 @@ class UserController
         if ($user && $_POST['secret'] === $user->getPassword()) {
             $user->updatePassword(hash('sha256', $_POST['password']));
             AuthController::isLogged() ? header("Location: /account") : header("Location: /connection");
+        } else {
+            unset($_POST);
+            $_POST['errors'][] = "Le mot de passe actuel est incorrect.";
+        }
+    }
+
+    public static function delete()
+    {
+        $user = User::findById($_SESSION['user']['id']);
+        if ($user) {
+            $user->delete();
+            AuthController::logout();
         }
     }
 }
