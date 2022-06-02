@@ -24,7 +24,12 @@ class AuthController
             header("Location: /register");
         }
 
-        $rep = User::create($_POST['mail'], $_POST['username'], hash('sha256', $_POST['password']));
+        if (isset($_POST['isAdmin'])) {
+            $rep = User::createAdmin($_POST['mail'], $_POST['username'], hash('sha256', $_POST['password']));
+        } else {
+            $rep = User::create($_POST['mail'], $_POST['username'], hash('sha256', $_POST['password']));
+        }
+
         if ($rep) {
             $_POST['login'] = $_POST['mail'];
             self::login();
@@ -92,14 +97,14 @@ class AuthController
         }
     }
 
-    public static function isLogged(): bool
+    public static function isLogged(bool $asAdmin = false): bool
     {
-        return isset($_SESSION['is_logged']) && $_SESSION['is_logged'];
+        return isset($_SESSION['is_logged']) && $_SESSION['is_logged'] && (!$asAdmin || $_SESSION['user']['is_admin']);
     }
 
-    public static function redirectIfNotLogged()
+    public static function redirectIfNotLogged(bool $asAdmin = false)
     {
-        if (!self::isLogged()) {
+        if (!self::isLogged($asAdmin)) {
             header("Location: /");
         }
     }

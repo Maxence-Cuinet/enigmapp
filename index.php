@@ -4,6 +4,7 @@ session_start();
 require_once 'Controller/AuthController.php';
 require_once 'Controller/HomeController.php';
 require_once 'Controller/UserController.php';
+require_once 'Controller/CourseController.php';
 
 $request = $_SERVER['REQUEST_URI'];
 $request = explode('?', $request)[0];
@@ -50,6 +51,9 @@ switch ($request[0]) {
         break;
     case 'delete':
         UserController::delete();
+        break;
+    case 'add-course':
+        CourseController::addCourseView();
         break;
     default:
         http_response_code(404);
