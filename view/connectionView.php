@@ -6,13 +6,7 @@
 
 <section id="pageContent" class="container">
     <form class="authForm m-auto" action="/connection/login" method="post">
-        <?php if (isset($_POST['errors']) && count($_POST['errors'])) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?php foreach ($_POST['errors'] as $error) {
-                    echo $error . '<br>';
-                } ?>
-            </div>
-        <?php } ?>
+        <?php include_once('template/displayErrorsSuccess.php') ?>
         <div class="mb-3">
             <label for="login" class="form-label">Email ou nom d'utilisateur</label>
             <input type="text" class="form-control" id="login" name="login" value="<?= $_POST['login'] ?? null ?>" required autofocus>

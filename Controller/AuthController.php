@@ -81,7 +81,7 @@ class AuthController
 //        $subject = 'Réinitialisation du mot de passe';
 //        $message = 'test de mail';
 //        mail($to, $subject, $message);
-//        $_POST['mail_send'] = true;
+//        $_POST['success'][] = "Email envoyé avec succés !";
 
         $user = User::findByMail($_POST['mail']);
         if ($user) {
