@@ -48,6 +48,9 @@ switch ($request[0]) {
     case 'account':
         UserController::index();
         break;
+    case 'delete':
+        UserController::delete();
+        break;
     default:
         http_response_code(404);
         break;

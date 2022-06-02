@@ -29,4 +29,13 @@ class UserController
             $_POST['errors'][] = "Le mot de passe actuel est incorrect.";
         }
     }
+
+    public static function delete()
+    {
+        $user = User::findById($_SESSION['user']['id']);
+        if ($user) {
+            $user->delete();
+            AuthController::logout();
+        }
+    }
 }
