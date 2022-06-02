@@ -7,13 +7,20 @@
 
 <section id="pageContent" class="container">
     <form class="authForm" action="/register/submit" method="post">
+        <?php if (isset($_POST['errors']) && count($_POST['errors'])) { ?>
+            <div class="alert alert-danger" role="alert">
+                <?php foreach ($_POST['errors'] as $error) {
+                    echo $error . '<br>';
+                } ?>
+            </div>
+        <?php } ?>
         <div class="mb-3">
             <label for="mail" class="form-label">Email</label>
-            <input type="email" class="form-control" id="mail" name="mail" placeholder="name@example.com" required autofocus>
+            <input type="email" class="form-control" id="mail" name="mail" placeholder="name@example.com" value="<?= $_POST['mail'] ?? null ?>" required autofocus>
         </div>
         <div class="mb-3">
             <label for="username" class="form-label">Nom d'utilisateur</label>
-            <input type="text" class="form-control" id="username" name="username" required>
+            <input type="text" class="form-control" id="username" name="username" value="<?= $_POST['username'] ?? null ?>" required>
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Mot de passe</label>
