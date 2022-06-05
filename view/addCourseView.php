@@ -12,7 +12,7 @@ AuthController::redirectIfNotLogged(true);
     <h3>Création d'un jeu de piste</h3>
     <form class="mt-4 mb-5" action="/add-course/submit" method="post">
         <div class="mb-3">
-            <label for="name" class="form-label fw-bold">Nom du jeu de piste</label>
+            <label for="name" class="form-label fw-bold">Nom du jeu de piste *</label>
             <input type="text" class="form-control" id="name" name="name" required>
         </div>
         <div class="mb-3">

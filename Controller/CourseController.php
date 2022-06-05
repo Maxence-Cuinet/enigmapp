@@ -14,7 +14,9 @@ class CourseController
             header("Location: /add-course");
         }
 
-        Course::create($_POST['name'], $_POST['image'], $_POST['description']);
+        if (Course::create($_POST['name'], $_POST['image'], $_POST['description'])) {
+            header("Location: /");
+        }
     }
 
     public static function deleteCourse()

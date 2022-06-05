@@ -83,12 +83,12 @@ class Course
         return $courses;
     }
 
-    public static function create(string $name, ?string $url_img, ?string $description)
+    public static function create(string $name, ?string $url_img, ?string $description): bool
     {
         $date = new DateTime();
         $pdo = Connexion::connect();
         $req = $pdo->prepare('INSERT INTO course (name, url_img, description, created_at, updated_at) VALUES (:name, :url_img, :description, :created_at, :updated_at)');
-        $req->execute([
+        return $req->execute([
             'name' => $name,
             'url_img' => $url_img,
             'description' => $description,
@@ -97,24 +97,25 @@ class Course
         ]);
     }
 
-    public static function update(int $id, string $name, string $url_img, string $created_at, string $updated_at)
+    public static function update(int $id, string $name, ?string $url_img, ?string $description): bool
     {
         $date = new DateTime();
         $pdo = Connexion::connect();
-        $req = $pdo->prepare('UPDATE course SET name = :name, url_img = :url_img, created_at = :created_at, updated_at = :updated_at');
-        $req->execute([
+        $req = $pdo->prepare('UPDATE course SET name = :name, url_img = :url_img, description = :description, updated_at = :updated_at WHERE id = :id');
+        return $req->execute([
             'name' => $name,
             'url_img' => $url_img,
+            'description' => $description,
             'updated_at' => $date->format("Y-m-d H:i:s"),
             'id' => $id
         ]);
     }
 
-    public static function delete(int $id)
+    public static function delete(int $id): bool
     {
         $pdo = Connexion::connect();
         $req = $pdo->prepare('DELETE FROM course WHERE id = :id');
-        $req->execute(['id' => $id]);
+        return $req->execute(['id' => $id]);
     }
 
     public static function count()
