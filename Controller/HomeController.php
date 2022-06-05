@@ -8,7 +8,7 @@ class HomeController
     {
         $page = array_key_exists('page', $_GET) ? $_GET['page'] : 1;
         $count = Course::count();
-        $max = round($count/8);
+        $max = ceil($count/8);
         if($page > $max){
             header("Location: /home?page=".$max);
         }
