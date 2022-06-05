@@ -12,6 +12,10 @@ html, body {
     padding: 3rem 1.5rem;
 }
 
+.hide-custom{
+    display: none;
+}
+
 .card-img-top {
     width: 100%;
     height: 12vw;

@@ -2,6 +2,7 @@
 <html lang="fr">
 <?php include_once('template/head.php') ?>
 <body>
+<script src="/view/js/home.js"></script>
 <?php include_once('template/nav.php') ?>
 
 <section id="pageContent" class="container px-4 px-lg-5 mt-5">
@@ -44,7 +45,7 @@
                                             <i class="fa fa-edit text-primary fa-xl"></i>
                                             </a>
                                             &nbsp;
-                                            <a href="javascript:void(0)">
+                                            <a href="javascript:void(0)" data-name="<?php echo $course->getName() ?>" data-id="<?php echo $course->getId() ?>" class="delete-course">
                                                 <i class="fa fa-trash text-danger fa-xl"></i>
                                             </a>
                                         </div>
@@ -97,7 +98,7 @@
             </div>
         <?php } ?>
 </section>
-
+<?php include_once('partials/homeViewModal.php') ?>
 <?php include_once('template/footer.php') ?>
 </body>
 </html>

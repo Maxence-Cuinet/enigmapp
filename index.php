@@ -55,6 +55,9 @@ switch ($request[0]) {
     case 'add-course':
         CourseController::addCourseView();
         break;
+    case 'delete-course':
+        CourseController::deleteCourse();
+        break;
     default:
         http_response_code(404);
         break;
