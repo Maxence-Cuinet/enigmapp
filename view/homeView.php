@@ -40,10 +40,10 @@
                                         </div>
                                     </div>
                                     <?php if(AuthController::isLogged(true)) {?>
-                                        <div class="row">
+                                        <div class="row mt-4">
                                             <div class="col p-0 d-flex justify-content-end">
-                                                <a href="javascript:void(0)">
-                                                <i class="fa fa-edit text-primary fa-xl"></i>
+                                                <a href="javascript:void(0)" class="me-2">
+                                                    <i class="fa fa-edit text-primary fa-xl"></i>
                                                 </a>
                                                 &nbsp;
                                                 <a href="javascript:void(0)" data-name="<?php echo $course->getName() ?>" data-id="<?php echo $course->getId() ?>" class="delete-course">
