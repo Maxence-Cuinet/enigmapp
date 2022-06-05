@@ -1,5 +1,5 @@
 $(document).ready(() => {
-    $(document).on('click', '.delete-course', function(e){
+    $(document).on('click', '.delete-course', function() {
         let name = $(this).data('name')
         let id = $(this).data('id')
         $('#deleteCourseName').text(name)
@@ -7,7 +7,7 @@ $(document).ready(() => {
         $('#deleteCourseModal').modal('show')
     });
 
-    $(document).on('submit', '#deleteCourseForm', function(e){
+    $(document).on('submit', '#deleteCourseForm', function(e) {
         e.preventDefault()
 
         //Animation btn et spinner

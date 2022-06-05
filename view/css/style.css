@@ -21,6 +21,13 @@ html, body {
     height: 12vw;
     object-fit: cover;
 }
+.img-selection {
+    width: 30%;
+    object-fit: cover;
+}
+.img-selected {
+    border: darkgrey solid 3px;
+}
 
 @media (min-width: 768px) {
     form {
