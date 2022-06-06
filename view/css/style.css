@@ -24,6 +24,7 @@ html, body {
 .img-selection {
     width: 30%;
     object-fit: cover;
+    cursor: pointer;
 }
 .img-selected {
     border: darkgrey solid 3px;
