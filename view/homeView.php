@@ -26,10 +26,10 @@
                 ?>
                     <div class="col mb-5">
                         <div class="card h-100">
-                            <img class="card-img-top" src="<?php echo $course->getUrlImg() ? $course->getUrlImg() : "https://dummyimage.com/450x300/dee2e6/6c757d.jpg" ?>" alt="..." />
+                            <img class="card-img-top" src="<?= $course->getUrlImg() ? $course->getUrlImg() : "https://dummyimage.com/450x300/dee2e6/6c757d.jpg" ?>" alt="..." />
                             <div class="card-body p-4">
                                 <div class="text-center">
-                                    <h5 class="fw-bolder"><?php echo $course->getName() ?></h5>
+                                    <h5 class="fw-bolder"><?= $course->getName() ?></h5>
                                 </div>
                             </div>
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
@@ -42,11 +42,10 @@
                                     <?php if(AuthController::isLogged(true)) {?>
                                         <div class="row mt-4">
                                             <div class="col p-0 d-flex justify-content-end">
-                                                <a href="javascript:void(0)" class="me-2">
+                                                <a href="/add-course?courseId=<?= $course->getId() ?>" class="me-3">
                                                     <i class="fa fa-edit text-primary fa-xl"></i>
                                                 </a>
-                                                &nbsp;
-                                                <a href="javascript:void(0)" data-name="<?php echo $course->getName() ?>" data-id="<?php echo $course->getId() ?>" class="delete-course">
+                                                <a href="javascript:void(0)" data-name="<?= $course->getName() ?>" data-id="<?= $course->getId() ?>" class="delete-course">
                                                     <i class="fa fa-trash text-danger fa-xl"></i>
                                                 </a>
                                             </div>

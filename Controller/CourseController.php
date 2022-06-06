@@ -14,7 +14,13 @@ class CourseController
             header("Location: /add-course");
         }
 
-        if (Course::create($_POST['name'], $_POST['image'], $_POST['description'])) {
+        if ($_POST['courseId']) {
+            $rep = Course::update($_POST['courseId'], $_POST['name'], $_POST['image'], $_POST['description']);
+        } else {
+            $rep = Course::create($_POST['name'], $_POST['image'], $_POST['description']);
+        }
+
+        if ($rep) {
             header("Location: /");
         }
     }
