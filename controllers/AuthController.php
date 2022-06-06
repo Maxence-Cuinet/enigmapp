@@ -82,16 +82,15 @@ class AuthController
             header("Location: /forget-password");
         }
 
-//        $to = $_POST['mail'];
-//        $subject = 'Réinitialisation du mot de passe';
-//        $message = 'test de mail';
-//        mail($to, $subject, $message);
-//        $_POST['success'][] = "Email envoyé avec succés !";
-
         $user = User::findByMail($_POST['mail']);
         if ($user) {
-            //@todo faire fonctionner l'envoie de mail et envoyer ce lien là
             header("Location: /change-password?user_id={$user->getId()}&secret={$user->getPassword()}");
+
+//            $to = $_POST['mail'];
+//            $subject = 'Réinitialisation du mot de passe';
+//            $message = "Cliquez sur ce lien pour réinitialiser votre mot de passe :\n http://enigmapp.alwaysdata.net/change-password?user_id={$user->getId()}&secret={$user->getPassword()}";
+//            mail($to, $subject, $message);
+//            $_POST['success'][] = "Email envoyé avec succés !";
         } else {
             $_POST['errors'][] = "Aucun utilisateur avec cet email n'a été trouvé.";
         }
