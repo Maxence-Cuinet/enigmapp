@@ -6,14 +6,16 @@ class HomeController
 {
     public static function index()
     {
-        $page = array_key_exists('page', $_GET) ? $_GET['page'] : 1;
         $count = Course::count();
-        $max = $count === 0 ? 1 : ceil($count/8);
+        $max = $count == 0 ? 1 : ceil($count/8);
+
+        $page = $_GET['page'] ?? 1;
         if ($page > $max) {
-            header("Location: /home?page=".$max);
+            header("Location: /home?page=" . $max);
         } else if ($page < 1) {
             header("Location: /home?page=1");
         }
+
         $_POST['page'] = $page;
         $_POST['max'] = $max;
         $courses = Course::findAll($page, 8);
