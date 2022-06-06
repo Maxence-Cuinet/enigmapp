@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-require_once 'Controller/AuthController.php';
-require_once 'Controller/HomeController.php';
-require_once 'Controller/UserController.php';
-require_once 'Controller/CourseController.php';
+require_once __DIR__ . '/../controllers/AuthController.php';
+require_once __DIR__ . '/../controllers/HomeController.php';
+require_once __DIR__ . '/../controllers/UserController.php';
+require_once __DIR__ . '/../controllers/CourseController.php';
 
 $request = $_SERVER['REQUEST_URI'];
 $request = explode('?', $request)[0];

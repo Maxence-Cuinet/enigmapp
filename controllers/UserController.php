@@ -1,16 +1,16 @@
 <?php
-include_once('Model/User.php');
+require_once __DIR__ . '/../models/User.php';
 
 class UserController
 {
     public static function index()
     {
-        require __DIR__ . '/../view/accountView.php';
+        require __DIR__ . '/../public/views/accountView.php';
     }
 
     public static function changePasswordView()
     {
-        require __DIR__ . '/../view/changePasswordView.php';
+        require __DIR__ . '/../public/views/changePasswordView.php';
     }
 
     public static function changePassword()

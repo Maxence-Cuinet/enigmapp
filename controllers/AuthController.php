@@ -1,21 +1,21 @@
 <?php
-include_once('Model/User.php');
+require_once __DIR__ . '/../models/User.php';
 
 class AuthController
 {
     public static function inscriptionView()
     {
-        require __DIR__ . '/../view/inscriptionView.php';
+        require __DIR__ . '/../public/views/inscriptionView.php';
     }
 
     public static function connectionView()
     {
-        require __DIR__ . '/../view/connectionView.php';
+        require __DIR__ . '/../public/views/connectionView.php';
     }
 
     public static function forgetPasswordView()
     {
-        require __DIR__ . '/../view/forgetPasswordView.php';
+        require __DIR__ . '/../public/views/forgetPasswordView.php';
     }
 
     public static function register()

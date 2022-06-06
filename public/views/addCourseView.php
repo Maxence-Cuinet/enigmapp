@@ -14,10 +14,10 @@ $imgSelected = in_array($imgSelected, ['sherlock.jpg', 'eye.jpg', 'globe.png']) 
 
 <!DOCTYPE html>
 <html lang="fr">
-<?php include_once('template/head.php') ?>
+<?php include_once __DIR__ . '/../template/head.php' ?>
 <body>
-<script src="/view/js/imgSelector.js"></script>
-<?php include_once('template/nav.php') ?>
+<script src="/js/imgSelector.js"></script>
+<?php include_once __DIR__ . '/../template/nav.php' ?>
 
 <section id="pageContent" class="container">
     <h3>Création d'un jeu de piste</h3>
@@ -45,6 +45,6 @@ $imgSelected = in_array($imgSelected, ['sherlock.jpg', 'eye.jpg', 'globe.png']) 
     </form>
 </section>
 
-<?php include_once('template/footer.php') ?>
+<?php include_once __DIR__ . '/../template/footer.php' ?>
 </body>
 </html>

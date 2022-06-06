@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="fr">
-<?php include_once('template/head.php') ?>
+<?php include_once __DIR__ . '/../template/head.php' ?>
 <body>
-<script src="/view/js/home.js"></script>
-<?php include_once('template/nav.php') ?>
+<script src="/js/home.js"></script>
+<?php include_once __DIR__ . '/../template/nav.php' ?>
 
 <section id="pageContent" class="container px-4 px-lg-5 mt-5">
         <div class="d-flex mb-4">
@@ -96,7 +96,7 @@
             </div>
         <?php } ?>
 </section>
-<?php include_once('partials/homeViewModal.php') ?>
-<?php include_once('template/footer.php') ?>
+<?php include_once __DIR__ . '/../partials/homeViewModal.php' ?>
+<?php include_once __DIR__ . '/../template/footer.php' ?>
 </body>
 </html>

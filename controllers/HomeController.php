@@ -1,6 +1,6 @@
 <?php
-include_once('Model/User.php');
-include_once('Model/Course.php');
+require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../models/Course.php';
 
 class HomeController
 {
@@ -18,6 +18,7 @@ class HomeController
         $_POST['max'] = $max;
         $courses = Course::findAll($page, 8);
         $_POST['courses'] = $courses;
-        require __DIR__ . '/../view/homeView.php';
+
+        require __DIR__ . '/../public/views/homeView.php';
     }
 }

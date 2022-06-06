@@ -1,11 +1,11 @@
 <?php
-include_once('Model/Course.php');
+require_once __DIR__ . '/../models/Course.php';
 
 class CourseController
 {
     public static function addCourseView()
     {
-        require __DIR__ . '/../view/addCourseView.php';
+        require __DIR__ . '/../public/views/addCourseView.php';
     }
 
     public static function addCourse()
