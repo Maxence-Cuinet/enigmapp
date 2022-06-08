@@ -1,5 +1,5 @@
 <?php
-include_once('Model/Connexion.php');
+require_once __DIR__ . '/Connexion.php';
 
 class Location{
     private int $id;
@@ -92,7 +92,7 @@ class Location{
     public static function create(int $id, string $name, string $longitude, string $latitude, string $description = "", string $img = null)
     {
         $pdo = Connexion::connect();
-        $req = $pdo->prepare('INSERT INTO location (name, longitude, latitude, description, img) VALUES (:name, :longitude, :latitude, :description, :img)');
+        $req = $pdo->prepare('INSERT INTO location (name, longitude, latitude, description, image) VALUES (:name, :longitude, :latitude, :description, :img)');
         $req->execute([
             'name' => $name,
             'longitude' => $longitude,
@@ -105,7 +105,7 @@ class Location{
     public static function update(int $id, string $name, string $longitude, string $latitude, string $description = "", string $img = null)
     {
         $pdo = Connexion::connect();
-        $req = $pdo->prepare('UPDATE location SET name = :name, longitude = :longitude, latitude = :latitude, description = :description, img = :img WHERE id = :id');
+        $req = $pdo->prepare('UPDATE location SET name = :name, longitude = :longitude, latitude = :latitude, description = :description, image = :img WHERE id = :id');
         $req->execute([
             'name' => $name,
             'longitude' => $longitude,

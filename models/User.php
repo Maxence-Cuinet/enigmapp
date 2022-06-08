@@ -1,5 +1,5 @@
 <?php
-include_once('Model/Connexion.php');
+require_once __DIR__ . '/Connexion.php';
 
 class User
 {

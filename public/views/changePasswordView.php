@@ -6,14 +6,14 @@ if (!isset($_GET['user_id']) || !isset($_GET['secret'])) {
 
 <!DOCTYPE html>
 <html lang="fr">
-<?php include_once('template/head.php') ?>
+<?php include_once __DIR__ . '/../template/head.php' ?>
 <body>
-<script src="/view/js/formValidator.js"></script>
-<?php include_once('template/nav.php') ?>
+<script src="/js/formValidator.js"></script>
+<?php include_once __DIR__ . '/../template/nav.php' ?>
 
 <section id="pageContent" class="container">
     <form class="authForm m-auto" action="/change-password/update" method="post">
-        <?php include_once('template/displayErrorsSuccess.php') ?>
+        <?php include_once __DIR__ . '/../template/displayErrorsSuccess.php' ?>
         <?php if (AuthController::isLogged()) { ?>
             <div class="mb-3">
                 <label for="actualPassword" class="form-label">Mot de passe actuel</label>
@@ -36,6 +36,6 @@ if (!isset($_GET['user_id']) || !isset($_GET['secret'])) {
     </form>
 </section>
 
-<?php include_once('template/footer.php') ?>
+<?php include_once __DIR__ . '/../template/footer.php' ?>
 </body>
 </html>
