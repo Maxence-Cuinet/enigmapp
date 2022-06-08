@@ -73,6 +73,7 @@ class AuthController
     {
         unset($_SESSION['user']);
         $_SESSION['is_logged'] = false;
+        $_SESSION['homeView'] = 'default';
         header("Location: /");
     }
 

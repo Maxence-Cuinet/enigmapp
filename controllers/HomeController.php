@@ -9,7 +9,7 @@ class HomeController
         if (isset($_GET['admin'])) {
             $_SESSION['homeView'] = 'admin';
         }
-        if (isset($_GET['default'])) {
+        if (isset($_GET['default']) || !isset($_SESSION['homeView'])) {
             $_SESSION['homeView'] = 'default';
         }
 
