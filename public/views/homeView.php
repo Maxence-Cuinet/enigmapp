@@ -36,7 +36,7 @@
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col text-center">
-                                            <a class="btn btn-outline-dark mt-auto" href="course/infos">Participer</a>
+                                            <a class="btn btn-outline-dark mt-auto" href="course/infos?courseId=<?= $course->getId() ?>">Participer</a>
                                         </div>
                                     </div>
                                     <?php if(AuthController::isLogged(true)) {?>

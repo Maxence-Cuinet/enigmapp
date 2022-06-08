@@ -4,7 +4,7 @@ $course = null;
 if (isset($_GET['courseId'])) {
     $course = Course::findById($_GET['courseId']);
     if (!$course) {
-        header("Location: /add-course");
+        header("Location: /course/create");
     }
 }
 

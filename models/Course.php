@@ -105,6 +105,8 @@ class Course
     public static function create(string $name, ?string $url_img, ?string $description): bool
     {
         $date = new DateTime();
+        $timezone = new DateTimeZone('Europe/Paris');
+        $date->setTimezone($timezone);
         $pdo = Connexion::connect();
         $req = $pdo->prepare('INSERT INTO course (name, url_img, description, created_at, updated_at) VALUES (:name, :url_img, :description, :created_at, :updated_at)');
         return $req->execute([
@@ -119,6 +121,8 @@ class Course
     public static function update(int $id, string $name, ?string $url_img, ?string $description): bool
     {
         $date = new DateTime();
+        $timezone = new DateTimeZone('Europe/Paris');
+        $date->setTimezone($timezone);
         $pdo = Connexion::connect();
         $req = $pdo->prepare('UPDATE course SET name = :name, url_img = :url_img, description = :description, updated_at = :updated_at WHERE id = :id');
         return $req->execute([
