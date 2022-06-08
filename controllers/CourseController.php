@@ -3,6 +3,11 @@ require_once __DIR__ . '/../models/Course.php';
 
 class CourseController
 {
+    public static function courseInfosView()
+    {
+        require __DIR__ . '/../public/views/courseInfosView.php';
+    }
+
     public static function addCourseView()
     {
         require __DIR__ . '/../public/views/addCourseView.php';
