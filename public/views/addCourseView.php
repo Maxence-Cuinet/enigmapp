@@ -17,6 +17,7 @@ $imgSelected = in_array($imgSelected, ['sherlock.jpg', 'eye.jpg', 'globe.png']) 
 <?php include_once __DIR__ . '/../template/head.php' ?>
 <body>
 <script src="/js/imgSelector.js"></script>
+<script src="/js/addStep.js"></script>
 <?php include_once __DIR__ . '/../template/nav.php' ?>
 
 <section id="pageContent" class="container">
@@ -40,11 +41,15 @@ $imgSelected = in_array($imgSelected, ['sherlock.jpg', 'eye.jpg', 'globe.png']) 
             <label for="description" class="form-label fw-bold">Description</label>
             <textarea class="form-control" id="description" name="description" rows="3"><?= $course ? $course->getDescription() : '' ?></textarea>
         </div>
+        <div class="mb-3">
+            <button id="btnAddStep" class="btn btn-outline-success"><i class="fa fa-plus"></i> Ajouter une étape</button>
+        </div>
         <input type="hidden" id="courseId" name="courseId" value="<?= $course ? $course->getId() : '' ?>">
         <button type="submit" class="btn btn-primary">Ajouter</button>
     </form>
 </section>
 
+<?php include_once __DIR__ . '/../partials/addStepModal.php' ?>
 <?php include_once __DIR__ . '/../template/footer.php' ?>
 </body>
 </html>
