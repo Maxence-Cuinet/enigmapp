@@ -5,7 +5,7 @@
 <script src="/js/home.js"></script>
 <?php include_once __DIR__ . '/../template/nav.php' ?>
 
-<section id="pageContent" class="container px-4 px-lg-5 mt-5">
+<section id="pageContent" class="container px-4 px-lg-5 mt-4">
         <div class="d-flex mb-4">
             <h3>Jeux de pistes</h3>
             <?php if (AuthController::isLogged(true)) { ?>
