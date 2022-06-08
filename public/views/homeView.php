@@ -9,7 +9,7 @@
         <div class="d-flex mb-4">
             <h3>Jeux de pistes</h3>
             <?php if (AuthController::isLogged(true)) { ?>
-                <a type="button" class="btn btn-outline-dark ms-3" href="/add-course"><i class="fa-solid fa-plus me-2"></i><b>Ajouter</b></a>
+                <a type="button" class="btn btn-outline-dark ms-3" href="/course/create"><i class="fa-solid fa-plus me-2"></i><b>Ajouter</b></a>
             <?php } ?>
         </div>
         <?php if (empty($_POST['courses'])) {?>
@@ -36,13 +36,13 @@
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col text-center">
-                                            <a class="btn btn-outline-dark mt-auto" href="course-infos">Participer</a>
+                                            <a class="btn btn-outline-dark mt-auto" href="course/infos">Participer</a>
                                         </div>
                                     </div>
                                     <?php if(AuthController::isLogged(true)) {?>
                                         <div class="row mt-4">
                                             <div class="col p-0 d-flex justify-content-end">
-                                                <a href="/add-course?courseId=<?= $course->getId() ?>" class="me-3">
+                                                <a href="/course/create?courseId=<?= $course->getId() ?>" class="me-3">
                                                     <i class="fa fa-edit text-primary fa-xl"></i>
                                                 </a>
                                                 <a href="javascript:void(0)" data-name="<?= $course->getName() ?>" data-id="<?= $course->getId() ?>" class="delete-course">

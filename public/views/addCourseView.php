@@ -21,7 +21,7 @@ $imgSelected = in_array($imgSelected, ['sherlock.jpg', 'eye.jpg', 'globe.png']) 
 
 <section id="pageContent" class="container">
     <h3>Création d'un jeu de piste</h3>
-    <form class="mt-4 mb-5" action="/add-course/submit" method="post">
+    <form class="mt-4 mb-5" action="/course/create/submit" method="post">
         <div class="mb-3">
             <label for="name" class="form-label fw-bold">Nom du jeu de piste *</label>
             <input type="text" class="form-control" id="name" name="name" value="<?= $course ? $course->getName() : '' ?>" required>
