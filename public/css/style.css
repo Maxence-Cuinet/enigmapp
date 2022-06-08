@@ -12,6 +12,12 @@ html, body {
     padding: 3rem 1.5rem;
 }
 
+#home-style-view {
+    align-self: center;
+    flex: 1;
+    text-align: end;
+}
+
 .hide-custom{
     display: none;
 }
