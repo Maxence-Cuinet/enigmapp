@@ -102,18 +102,20 @@ class Course
         return $courses;
     }
 
-    public static function create(string $name, ?string $url_img, ?string $description): bool
+    public static function create(string $name, ?string $url_img, ?string $description)
     {
         $date = new DateTime();
         $pdo = Connexion::connect();
         $req = $pdo->prepare('INSERT INTO course (name, url_img, description, created_at, updated_at) VALUES (:name, :url_img, :description, :created_at, :updated_at)');
-        return $req->execute([
+        
+        $rep = $req->execute([
             'name' => $name,
             'url_img' => $url_img,
             'description' => $description,
             'created_at' => $date->format("Y-m-d H:i:s"),
             'updated_at' => $date->format("Y-m-d H:i:s")
         ]);
+        return $rep ? new Course($pdo->lastInsertId(), $name, $url_img, $description, $date, $date) : $rep;
     }
 
     public static function update(int $id, string $name, ?string $url_img, ?string $description): bool
