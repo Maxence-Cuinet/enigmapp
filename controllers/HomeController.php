@@ -18,7 +18,9 @@ class HomeController
             $nbParPage = 10;
         }
 
-        $count = Course::count();
+        $search = $_GET['q'] ?? null;
+
+        $count = Course::count($search);
         $max = $count == 0 ? 1 : ceil($count / $nbParPage);
 
         $page = $_GET['page'] ?? 1;
@@ -30,7 +32,7 @@ class HomeController
 
         $_POST['page'] = $page;
         $_POST['max'] = $max;
-        $courses = Course::findAll($page, $nbParPage);
+        $courses = Course::findAll($page, $nbParPage, $search);
         $_POST['courses'] = $courses;
 
         if ($_SESSION['homeView'] === 'admin') {

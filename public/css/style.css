@@ -52,6 +52,10 @@ tr[data-href] {
         width: 85%;
         margin: auto;
     }
+
+    .search {
+        width: 55%;
+    }
 }
 
 @media (min-width: 992px) {
@@ -61,5 +65,9 @@ tr[data-href] {
 
     .authForm {
         width: 65%;
+    }
+
+    .search {
+        width: 40%;
     }
 }

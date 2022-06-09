@@ -83,11 +83,13 @@ class Course
         return $course ? new course($course['id'], $course['name'], $course['url_img'], $course['description'], $created_at, $updated_at) : false;
     }
 
-    public static function findAll(int $page, int $nb): array
+    public static function findAll(int $page, int $nb, string $search = null): array
     {
         $pdo = Connexion::connect();
 
-        $req = $pdo->prepare('SELECT * FROM course LIMIT :deb, :nb');
+        $whereClause = $search ? "WHERE name LIKE '%{$search}%' OR description LIKE '%{$search}%'" : '';
+
+        $req = $pdo->prepare("SELECT * FROM course {$whereClause} ORDER BY updated_at desc LIMIT :deb, :nb");
         $deb = $nb*($page-1);
         $req->bindParam("deb", $deb, PDO::PARAM_INT);
         $req->bindParam("nb", $nb, PDO::PARAM_INT);
@@ -100,6 +102,18 @@ class Course
             $courses[] = new Course($course['id'], $course['name'], $course['url_img'], $course['description'], $created_at, $updated_at);
         }
         return $courses;
+    }
+
+    public static function count(string $search = null)
+    {
+        $pdo = Connexion::connect();
+
+        $whereClause = $search ? "WHERE name LIKE '%{$search}%' OR description LIKE '%{$search}%'" : '';
+
+        $req = $pdo->prepare("SELECT count(*) as count FROM course {$whereClause}");
+        $req->execute();
+        $result = $req->fetch();
+        return $result['count'];
     }
 
     public static function create(string $name, ?string $url_img, ?string $description): bool
@@ -139,14 +153,5 @@ class Course
         $pdo = Connexion::connect();
         $req = $pdo->prepare('DELETE FROM course WHERE id = :id');
         return $req->execute(['id' => $id]);
-    }
-
-    public static function count()
-    {
-        $pdo = Connexion::connect();
-        $req = $pdo->prepare('SELECT count(*) as count FROM course');
-        $req->execute();
-        $result = $req->fetch();
-        return $result['count'];
     }
 }
