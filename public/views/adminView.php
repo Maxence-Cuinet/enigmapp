@@ -44,7 +44,7 @@ $_SESSION['homeView'] = 'admin';
                 $description = substr($course->getDescription(), 0, 50);
                 $description = strlen($description) !== strlen($course->getDescription()) ? $description . '...' : $description;
             ?>
-                <tr>
+                <tr data-href="course/infos?courseId=<?= $course->getId() ?>">
                     <th scope="row"><?= $course->getId() ?></th>
                     <td><?= $course->getName() ?></td>
                     <td><?= $description  ?></td>
