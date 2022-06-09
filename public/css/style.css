@@ -17,6 +17,9 @@ html, body {
     flex: 1;
     text-align: end;
 }
+#home-style-view > a.text-secondary:hover {
+    color: #414549 !important;
+}
 
 .hide-custom{
     display: none;

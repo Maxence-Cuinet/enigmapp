@@ -39,4 +39,6 @@ $(document).ready(() => {
             }
         })
     })
+
+    $('[data-bs-toggle="popover"]').popover()
 });

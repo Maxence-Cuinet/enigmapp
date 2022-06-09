@@ -15,8 +15,8 @@ $_SESSION['homeView'] = 'default';
         <?php if (AuthController::isLogged(true)) { ?>
             <a type="button" class="btn btn-outline-dark ms-3" href="/course/create"><i class="fa-solid fa-plus me-2"></i><b>Ajouter</b></a>
             <div id="home-style-view">
-                <a class="text-secondary ms-3"><i class="fa-solid fa-grip fa-xl"></i></a>
-                <a type="button" class="text-dark ms-3" href="/home?admin"><i class="fa-solid fa-list fa-xl"></i></a>
+                <a class="text-dark ms-3"><i class="fa-solid fa-grip fa-xl"></i></a>
+                <a type="button" class="text-secondary ms-3" href="/home?admin"><i class="fa-solid fa-list fa-xl"></i></a>
             </div>
         <?php } ?>
     </div>
