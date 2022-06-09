@@ -7,4 +7,4 @@ CREATE TABLE IF NOT EXISTS `participation` (
     `date_end` datetime NOT NULL,
     `state` varchar(20) NOT NULL,
     PRIMARY KEY (`id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

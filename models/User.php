@@ -8,14 +8,18 @@ class User
     private string $username;
     private string $password;
     private bool $is_admin;
+    private ?string $secret_key;
+    private ?DateTime $generate_key_date;
 
-    public function __construct(int $id, string $mail, string $username, string $password, bool $is_admin)
+    public function __construct(int $id, string $mail, string $username, string $password, bool $is_admin, ?string $secret_key, ?DateTime $generate_key_date)
     {
         $this->id = $id;
         $this->password = $password;
         $this->username = $username;
         $this->mail = $mail;
         $this->is_admin = $is_admin;
+        $this->secret_key = $secret_key;
+        $this->generate_key_date = $generate_key_date;
     }
 
     public function getId(): int
@@ -58,6 +62,26 @@ class User
         return $this->is_admin;
     }
 
+    public function getSecretKey(): string
+    {
+        return $this->secret_key;
+    }
+
+    public function setSecretKey(string $secret_key)
+    {
+        $this->secret_key = $secret_key;
+    }
+
+    public function getGenerateKeyDate(): DateTime
+    {
+        return $this->generate_key_date;
+    }
+
+    public function setGenerateKeyDate(DateTime $generate_key_date)
+    {
+        $this->generate_key_date = $generate_key_date;
+    }
+
     /**
      * @param int $id
      * @return User|bool
@@ -69,7 +93,11 @@ class User
         $req->execute(['id' => $id]);
 
         $user = $req->fetch();
-        return $user ? new User($user['id'], $user['mail'], $user['username'], $user['password'], $user['is_admin']) : false;
+        if ($user) {
+            $generate_key_date = new DateTime($user['generate_key_date']) ;
+            return new User($user['id'], $user['mail'], $user['username'], $user['password'], $user['is_admin'], $user['secret_key'], $generate_key_date);
+        }
+        return false;
     }
 
     /**
@@ -83,7 +111,11 @@ class User
         $req->execute(['username' => $username]);
 
         $user = $req->fetch();
-        return $user ? new User($user['id'], $user['mail'], $user['username'], $user['password'], $user['is_admin']) : false;
+        if ($user) {
+            $generate_key_date = new DateTime($user['generate_key_date']) ;
+            return new User($user['id'], $user['mail'], $user['username'], $user['password'], $user['is_admin'], $user['secret_key'], $generate_key_date);
+        }
+        return false;
     }
 
     /**
@@ -97,7 +129,11 @@ class User
         $req->execute(['mail' => $mail]);
 
         $user = $req->fetch();
-        return $user ? new User($user['id'], $user['mail'], $user['username'], $user['password'], $user['is_admin']) : false;
+        if ($user) {
+            $generate_key_date = new DateTime($user['generate_key_date']) ;
+            return new User($user['id'], $user['mail'], $user['username'], $user['password'], $user['is_admin'], $user['secret_key'], $generate_key_date);
+        }
+        return false;
     }
 
     public static function findAll(): array
@@ -109,7 +145,8 @@ class User
         $users = [];
         while ($user = $req->fetch())
         {
-            $users[] = new User($user['id'], $user['mail'], $user['username'], $user['password'], $user['is_admin']);
+            $generate_key_date = new DateTime($user['generate_key_date']);
+            $users[] = new User($user['id'], $user['mail'], $user['username'], $user['password'], $user['is_admin'], $user['secret_key'], $generate_key_date);
         }
         return $users;
     }
@@ -151,6 +188,24 @@ class User
     public function updatePassword(string $password)
     {
         $this->update($this->getMail(), $this->getUsername(), $password);
+    }
+
+    public function generateSecretKey(): string
+    {
+        $date = new DateTime();
+        $timezone = new DateTimeZone('Europe/Paris');
+        $date->setTimezone($timezone);
+
+        $secretKey = hash('sha256', rand());
+
+        $pdo = Connexion::connect();
+        $req = $pdo->prepare('UPDATE user SET secret_key = :secretKey, generate_key_date = :generateKeyDate WHERE id = :id');
+        $req->execute([
+            'secretKey' => $secretKey,
+            'generateKeyDate' => $date->format("Y-m-d H:i:s"),
+            'id' => $this->getId()
+        ]);
+        return $secretKey;
     }
 
     public function delete()

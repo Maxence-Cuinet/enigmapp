@@ -26,42 +26,54 @@ $_SESSION['homeView'] = 'admin';
             </div>
         </div>
     <?php } else { ?>
-        <table class="table table-striped table-hover">
-            <thead>
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Nom</th>
-                <th scope="col">Description</th>
-                <th scope="col">Date de création</th>
-                <th scope="col">Dernière modification</th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php
-            $courses = $_POST['courses'];
-            foreach ($courses as $course) {
-                $description = substr($course->getDescription(), 0, 50);
-                $description = strlen($description) !== strlen($course->getDescription()) ? $description . '...' : $description;
-            ?>
-                <tr data-href="course/infos?courseId=<?= $course->getId() ?>">
-                    <th scope="row"><?= $course->getId() ?></th>
-                    <td><?= $course->getName() ?></td>
-                    <td><?= $description  ?></td>
-                    <td><?= $course->getCreatedAt()->format('d/m/Y') ?></td>
-                    <td><?= $course->getUpdatedAt()->format('d/m/Y - H:i') ?></td>
-                    <td>
-                        <a href="/course/create?courseId=<?= $course->getId() ?>" class="me-3">
-                            <i class="fa-solid fa-edit text-primary fa-xl"></i>
-                        </a>
-                        <a href="javascript:void(0)" data-name="<?= $course->getName() ?>" data-id="<?= $course->getId() ?>" class="delete-course">
-                            <i class="fa fa-trash text-danger fa-xl"></i>
-                        </a>
-                    </td>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col" class="d-md-none"></th>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Date de création</th>
+                    <th scope="col">Dernière modification</th>
+                    <th scope="col" class="d-none d-md-table-cell"></th>
                 </tr>
-            <?php } ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                <?php
+                $courses = $_POST['courses'];
+                foreach ($courses as $course) { ?>
+                    <tr data-href="course/infos?courseId=<?= $course->getId() ?>">
+                        <td class="d-md-none">
+                            <div class="d-flex">
+                                <a href="/course/create?courseId=<?= $course->getId() ?>" class="me-3">
+                                    <i class="fa-solid fa-edit text-primary fa-xl"></i>
+                                </a>
+                                <a href="javascript:void(0)" data-name="<?= $course->getName() ?>" data-id="<?= $course->getId() ?>" class="delete-course">
+                                    <i class="fa fa-trash text-danger fa-xl"></i>
+                                </a>
+                            </div>
+                        </td>
+                        <th scope="row"><?= $course->getId() ?></th>
+                        <td><?= $course->getName() ?></td>
+                        <td class="text-truncate" style="max-width: 250px;"><?= $course->getDescription()  ?></td>
+                        <td><?= $course->getCreatedAt()->format('d/m/Y') ?></td>
+                        <td><?= $course->getUpdatedAt()->format('d/m/Y - H:i') ?></td>
+                        <td class="d-none d-md-table-cell">
+                            <div class="d-flex">
+                                <a href="/course/create?courseId=<?= $course->getId() ?>" class="me-3">
+                                    <i class="fa-solid fa-edit text-primary fa-xl"></i>
+                                </a>
+                                <a href="javascript:void(0)" data-name="<?= $course->getName() ?>" data-id="<?= $course->getId() ?>" class="delete-course">
+                                    <i class="fa fa-trash text-danger fa-xl"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+        </div>
 
         <div class="row mt-4">
             <div class="col d-flex justify-content-center">
