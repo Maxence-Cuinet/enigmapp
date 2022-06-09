@@ -1,6 +1,17 @@
 <?php
-if (!isset($_GET['user_id']) || !isset($_GET['secret'])) {
+if (!isset($_GET['user_id']) || !isset($_GET['secret_key'])) {
     AuthController::redirectIfNotLogged();
+} else {
+    $dateNow = new DateTime();
+    $timezone = new DateTimeZone('Europe/Paris');
+    $dateNow->setTimezone($timezone);
+
+    $user = User::findById($_GET['user_id']);
+    if (!$user || $_GET['secret_key'] !== $user->getSecretKey()) {
+        $_POST['errors'][] = "Utilisateur introuvable.";
+    } else if (strtotime($user->getGenerateKeyDate()->add(new DateInterval('PT30M'))->format('Y-m-d H:i:s')) - strtotime($dateNow->format('Y-m-d H:i:s')) < 0) {
+        $_POST['errors'][] = "Ce lien a expiré.";
+    }
 }
 ?>
 
@@ -31,7 +42,7 @@ if (!isset($_GET['user_id']) || !isset($_GET['secret'])) {
         <button type="submit" class="btn btn-primary">Changer le mot de passe</button>
         <div class="invisible">
             <label><input id="userId" name="userId" value="<?= $_GET['user_id'] ?? null ?>"></label>
-            <label><input id="secret" name="secret" value="<?= $_GET['secret'] ?? null ?>"></label>
+            <label><input id="secretKey" name="secretKey" value="<?= $_GET['secret_key'] ?? null ?>"></label>
         </div>
     </form>
 </section>
