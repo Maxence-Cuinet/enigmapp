@@ -39,6 +39,10 @@ html, body {
     border: darkgrey solid 3px;
 }
 
+tr[data-href] {
+    cursor: pointer;
+}
+
 @media (min-width: 768px) {
     form {
         width: 70%;

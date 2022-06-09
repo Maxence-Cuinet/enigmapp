@@ -44,7 +44,7 @@ $_SESSION['homeView'] = 'admin';
                 <?php
                 $courses = $_POST['courses'];
                 foreach ($courses as $course) { ?>
-                    <tr>
+                    <tr data-href="course/infos?courseId=<?= $course->getId() ?>">
                         <td class="d-md-none">
                             <div class="d-flex">
                                 <a href="/course/create?courseId=<?= $course->getId() ?>" class="me-3">
