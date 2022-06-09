@@ -20,7 +20,7 @@ $search = $_GET['q'] ?? null;
             <a class="text-dark ms-3"><i class="fa-solid fa-list fa-xl"></i></a>
         </div>
     </div>
-    <div class="d-flex justify-content-end mb-3">
+    <div class="d-flex justify-content-end mb-5">
         <form class="input-group search">
             <input type="text" class="form-control" id="search" value="<?= $search ?>"><label for="search"></label>
             <button type="submit" class="btn btn-outline-secondary" id="search-button">Recherche</button>
