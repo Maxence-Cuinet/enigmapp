@@ -46,4 +46,16 @@ class UserController
             AuthController::logout();
         }
     }
+
+    public static function getAllUsers()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+            header('HTTP/1.1 404 Not found');die;
+        }
+
+        $users = User::findAll(true);
+        header('HTTP/1.1 200 Ok');
+        header('Content-Type: application/json');
+        echo json_encode($users, JSON_PRETTY_PRINT);
+    }
 }
