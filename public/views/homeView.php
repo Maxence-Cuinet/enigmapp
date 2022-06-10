@@ -1,5 +1,6 @@
 <?php
 $_SESSION['homeView'] = 'default';
+$search = $_GET['q'] ?? null;
 ?>
 
 <!DOCTYPE html>
