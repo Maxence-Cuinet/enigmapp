@@ -67,6 +67,9 @@ switch ($request[0]) {
             case 'infos':
                 CourseController::courseInfosView();
                 break;
+            case 'participate':
+                CourseController::participateView();
+                break;
         }
         break;
     case 'users':

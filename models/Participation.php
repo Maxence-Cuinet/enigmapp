@@ -3,27 +3,27 @@
 class Participation
 {
     private int $id;
-    private int $id_user;
-    private int $id_course;
-    private DateTime $date_start;
-    private DateTime $date_end;
+    private int $user_id;
+    private int $course_id;
+    private DateTime $start_date;
+    private ?DateTime $end_date;
     private string $state;
 
     /**
      * @param int $id
-     * @param int $id_user
-     * @param int $id_course
-     * @param DateTime $date_start
-     * @param DateTime $date_end
+     * @param int $user_id
+     * @param int $course_id
+     * @param DateTime $start_date
+     * @param ?DateTime $end_date
      * @param string $state
      */
-    public function __construct(int $id, int $id_user, int $id_course, DateTime $date_start, DateTime $date_end, string $state)
+    public function __construct(int $id, int $user_id, int $course_id, DateTime $start_date, ?DateTime $end_date, string $state)
     {
         $this->id = $id;
-        $this->id_user = $id_user;
-        $this->id_course = $id_course;
-        $this->date_start = $date_start;
-        $this->date_end = $date_end;
+        $this->user_id = $user_id;
+        $this->course_id = $course_id;
+        $this->start_date = $start_date;
+        $this->end_date = $end_date;
         $this->state = $state;
     }
 
@@ -40,15 +40,15 @@ class Participation
      */
     public function getIdUser(): int
     {
-        return $this->id_user;
+        return $this->user_id;
     }
 
     /**
-     * @param int $id_user
+     * @param int $user_id
      */
-    public function setIdUser(int $id_user): void
+    public function setIdUser(int $user_id): void
     {
-        $this->id_user = $id_user;
+        $this->user_id = $user_id;
     }
 
     /**
@@ -56,15 +56,15 @@ class Participation
      */
     public function getIdCourse(): int
     {
-        return $this->id_course;
+        return $this->course_id;
     }
 
     /**
-     * @param int $id_course
+     * @param int $course_id
      */
-    public function setIdCourse(int $id_course): void
+    public function setIdCourse(int $course_id): void
     {
-        $this->id_course = $id_course;
+        $this->course_id = $course_id;
     }
 
     /**
@@ -72,15 +72,15 @@ class Participation
      */
     public function getDateStart(): DateTime
     {
-        return $this->date_start;
+        return $this->start_date;
     }
 
     /**
-     * @param DateTime $date_start
+     * @param DateTime $start_date
      */
-    public function setDateStart(DateTime $date_start): void
+    public function setDateStart(DateTime $start_date): void
     {
-        $this->date_start = $date_start;
+        $this->start_date = $start_date;
     }
 
     /**
@@ -88,15 +88,15 @@ class Participation
      */
     public function getDateEnd(): DateTime
     {
-        return $this->date_end;
+        return $this->end_date;
     }
 
     /**
-     * @param DateTime $date_end
+     * @param DateTime $end_date
      */
-    public function setDateEnd(DateTime $date_end): void
+    public function setDateEnd(DateTime $end_date): void
     {
-        $this->date_end = $date_end;
+        $this->end_date = $end_date;
     }
 
     /**
@@ -126,39 +126,19 @@ class Participation
         $req->execute(['id' => $id]);
 
         $participation = $req->fetch();
-        return $participation ? new Participation($participation['id'], $participation['id_user'], $participation['id_course'], $participation['date_start'], $participation['date_end'], $participation['state']) : false;
+        return $participation ? new Participation($participation['id'], $participation['user_id'], $participation['course_id'], $participation['start_date'], $participation['end_date'], $participation['state']) : false;
     }
 
-    public static function findByUser(int $id_user):array
+    public static function findInProgressByUserId(int $userId)
     {
         $pdo = Connexion::connect();
-        $req = $pdo->prepare('SELECT * FROM participation WHERE id_user = :id_user');
-        $req->execute(['id_user' => $id_user]);
+        $req = $pdo->prepare("SELECT * FROM participation WHERE user_id = :user_id AND state = 'inProgress'");
+        $req->execute(['user_id' => $userId]);
 
-        $participation = [];
-        while ($participation = $req->fetch())
-        {
-            $participation[] = new Participation($participation['id'], $participation['id_user'], $participation['id_course'], $participation['date_start'], $participation['date_end'], $participation['state']);
-        }
-        return $participation;
-    }
-
-    /**
-     * @param int $id_course
-     * @return Participation|bool
-     */
-    public static function findByCourse(int $id_course):array
-    {
-        $pdo = Connexion::connect();
-        $req = $pdo->prepare('SELECT * FROM participation WHERE id_course = :id_course');
-        $req->execute(['id_course' => $id_course]);
-
-        $participation = [];
-        while ($participation = $req->fetch())
-        {
-            $participation[] = new Participation($participation['id'], $participation['id_user'], $participation['id_course'], $participation['date_start'], $participation['date_end'], $participation['state']);
-        }
-        return $participation;
+        $participation = $req->fetch();
+        $startDate = new DateTime($participation['start_date']);
+        $endDate = new DateTime($participation['end_date']);
+        return $participation ? new Participation($participation['id'], $participation['user_id'], $participation['course_id'], $startDate, $endDate, $participation['state']) : false;
     }
 
     public static function findAll(): array
@@ -170,33 +150,69 @@ class Participation
         $participation = [];
         while ($participation = $req->fetch())
         {
-            $participation[] = new Participation($participation['id'], $participation['id_user'], $participation['id_course'], $participation['date_start'], $participation['date_end'], $participation['state']);
+            $participation[] = new Participation($participation['id'], $participation['user_id'], $participation['course_id'], $participation['start_date'], $participation['end_date'], $participation['state']);
         }
         return $participation;
     }
 
-    public static function create(int $id_user, int $id_course, DateTime $date_start, DateTime $date_end, string $state): bool
+    public static function findAllByUser(int $user_id):array
     {
         $pdo = Connexion::connect();
-        $req = $pdo->prepare('INSERT INTO participation (id_user, id_course, date_start, date_end, state) VALUES (:id_user, :id_course, :date_start, :date_end, :state)');
-        return $req->execute([
-            'id_user' => $id_user,
-            'id_course' => $id_course,
-            'date_start' => $date_start,
-            'date_end' => $date_end,
-            'state' => $state
-        ]);
+        $req = $pdo->prepare('SELECT * FROM participation WHERE user_id = :user_id');
+        $req->execute(['user_id' => $user_id]);
+
+        $participation = [];
+        while ($participation = $req->fetch())
+        {
+            $participation[] = new Participation($participation['id'], $participation['user_id'], $participation['course_id'], $participation['start_date'], $participation['end_date'], $participation['state']);
+        }
+        return $participation;
     }
 
-    public static function update(int $id_user, int $id_course, DateTime $date_start, DateTime $date_end, string $state): bool
+    /**
+     * @param int $course_id
+     * @return Participation|bool
+     */
+    public static function findAllByCourse(int $course_id):array
     {
         $pdo = Connexion::connect();
-        $req = $pdo->prepare('UPDATE participation SET id_user = :id_user, id_course = :id_course, date_start = :date_start, date_end = :date_end, state = :state WHERE id = :id');
+        $req = $pdo->prepare('SELECT * FROM participation WHERE course_id = :course_id');
+        $req->execute(['course_id' => $course_id]);
+
+        $participation = [];
+        while ($participation = $req->fetch())
+        {
+            $participation[] = new Participation($participation['id'], $participation['user_id'], $participation['course_id'], $participation['start_date'], $participation['end_date'], $participation['state']);
+        }
+        return $participation;
+    }
+
+    public static function create(int $user_id, int $course_id, string $state)
+    {
+        $date = new DateTime();
+        $timezone = new DateTimeZone('Europe/Paris');
+        $date->setTimezone($timezone);
+
+        $pdo = Connexion::connect();
+        $req = $pdo->prepare('INSERT INTO participation (user_id, course_id, start_date, state) VALUES (:user_id, :course_id, :start_date, :state)');
+        $rep = $req->execute([
+            'user_id' => $user_id,
+            'course_id' => $course_id,
+            'start_date' => $date->format("Y-m-d H:i:s"),
+            'state' => $state
+        ]);
+        return $rep ? new Participation($pdo->lastInsertId(), $user_id, $course_id, $date, null, $state) : $rep;
+    }
+
+    public static function update(int $user_id, int $course_id, DateTime $start_date, DateTime $end_date, string $state): bool
+    {
+        $pdo = Connexion::connect();
+        $req = $pdo->prepare('UPDATE participation SET user_id = :user_id, course_id = :course_id, start_date = :start_date, end_date = :end_date, state = :state WHERE id = :id');
         return $req->execute([
-            'id_user' => $id_user,
-            'id_course' => $id_course,
-            'date_start' => $date_start,
-            'date_end' => $date_end,
+            'user_id' => $user_id,
+            'course_id' => $course_id,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
             'state' => $state
         ]);
     }

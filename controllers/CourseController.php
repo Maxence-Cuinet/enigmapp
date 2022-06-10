@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../models/Course.php';
 require_once __DIR__ . '/../models/Step.php';
 require_once __DIR__ . '/../models/Answer.php';
+require_once __DIR__ . '/../models/Participation.php';
 
 class CourseController
 {
@@ -13,6 +14,22 @@ class CourseController
     public static function addCourseView()
     {
         require __DIR__ . '/../public/views/addCourseView.php';
+    }
+
+    public static function participateView()
+    {
+        AuthController::redirectIfNotLogged();
+
+        $participationInProgress = Participation::findInProgressByUserId($_SESSION['user']['id']);
+        if ($participationInProgress) {
+            $_POST['participation']['id'] = $participationInProgress->getId();
+        } else {
+            $participation = Participation::create($_SESSION['user']['id'], $_GET['courseId'], 'inProgress');
+            $_POST['participation']['id'] = $participation->getId();
+        }
+        $_POST['participation']['actualStep'] = 0;
+
+        require __DIR__ . '/../public/views/courseParticipateView.php';
     }
 
     public static function addCourse()
