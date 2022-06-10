@@ -38,5 +38,18 @@ $(document).ready(() => {
                 console.log("ERREUR AJAX : ", retour)
             }
         })
-    })
+    });
+
+    $(document.body).on("click","tr[data-href]", function () {
+        window.location.href = this.dataset.href;
+    });
+
+    $('[data-bs-toggle="popover"]').popover();
+
+    $(document.body).on("submit",".search", function (e) {
+        e.preventDefault()
+
+        let search = $('#search').val()
+        window.location.href = '/home?q=' + search;
+    });
 });

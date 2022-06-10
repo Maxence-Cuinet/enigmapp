@@ -73,6 +73,7 @@ class AuthController
     {
         unset($_SESSION['user']);
         $_SESSION['is_logged'] = false;
+        $_SESSION['homeView'] = 'default';
         header("Location: /");
     }
 
@@ -84,11 +85,11 @@ class AuthController
 
         $user = User::findByMail($_POST['mail']);
         if ($user) {
-            header("Location: /change-password?user_id={$user->getId()}&secret={$user->getPassword()}");
+            header("Location: /change-password?user_id={$user->getId()}&secret_key={$user->generateSecretKey()}");
 
 //            $to = $_POST['mail'];
 //            $subject = 'Réinitialisation du mot de passe';
-//            $message = "Cliquez sur ce lien pour réinitialiser votre mot de passe :\n http://enigmapp.alwaysdata.net/change-password?user_id={$user->getId()}&secret={$user->getPassword()}";
+//            $message = "Cliquez sur ce lien pour réinitialiser votre mot de passe :\n http://enigmapp.alwaysdata.net/change-password?user_id={$user->getId()}&secret_key={$user->generateSecretKey()}";
 //            mail($to, $subject, $message);
 //            $_POST['success'][] = "Email envoyé avec succés !";
         } else {

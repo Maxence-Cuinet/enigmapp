@@ -52,15 +52,22 @@ switch ($request[0]) {
     case 'delete':
         UserController::delete();
         break;
-    case 'add-course':
+    case 'course':
         switch ($request[1] ?? '') {
-            case 'submit':
-                CourseController::addCourse();
+            case 'create':
+                switch ($request[2] ?? '') {
+                    case 'submit':
+                        CourseController::addCourse();
+                }
+                CourseController::addCourseView();
+                break;
+            case 'delete':
+                CourseController::deleteCourse();
+                break;
+            case 'infos':
+                CourseController::courseInfosView();
+                break;
         }
-        CourseController::addCourseView();
-        break;
-    case 'delete-course':
-        CourseController::deleteCourse();
         break;
     default:
         http_response_code(404);

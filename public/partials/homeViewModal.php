@@ -1,7 +1,7 @@
 <div class="modal fade" id="deleteCourseModal" tabindex="-1" aria-labelledby="deleteCourseModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="/delete-course" id="deleteCourseForm" class="w-100">
+            <form action="/course/delete" id="deleteCourseForm" class="w-100">
                 <input type="hidden" id="deleteCourseInputHidden" name="id">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteCourseModalLabel">Suppression du jeu de piste</h5>

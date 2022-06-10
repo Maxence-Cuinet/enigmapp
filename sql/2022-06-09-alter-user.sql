@@ -1,0 +1,1 @@
+ALTER TABLE user ADD secret_key varchar(64), ADD generate_key_date DATETIME;

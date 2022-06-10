@@ -6,8 +6,22 @@ class HomeController
 {
     public static function index()
     {
-        $count = Course::count();
-        $max = $count == 0 ? 1 : ceil($count/8);
+        if (isset($_GET['admin'])) {
+            $_SESSION['homeView'] = 'admin';
+        }
+        if (isset($_GET['default']) || !isset($_SESSION['homeView'])) {
+            $_SESSION['homeView'] = 'default';
+        }
+
+        $nbParPage = 8;
+        if ($_SESSION['homeView'] === 'admin') {
+            $nbParPage = 10;
+        }
+
+        $search = $_GET['q'] ?? null;
+
+        $count = Course::count($search);
+        $max = $count == 0 ? 1 : ceil($count / $nbParPage);
 
         $page = $_GET['page'] ?? 1;
         if ($page > $max) {
@@ -18,9 +32,13 @@ class HomeController
 
         $_POST['page'] = $page;
         $_POST['max'] = $max;
-        $courses = Course::findAll($page, 8);
+        $courses = Course::findAll($page, $nbParPage, $search);
         $_POST['courses'] = $courses;
 
-        require __DIR__ . '/../public/views/homeView.php';
+        if ($_SESSION['homeView'] === 'admin') {
+            require __DIR__ . '/../public/views/adminView.php';
+        } else {
+            require __DIR__ . '/../public/views/homeView.php';
+        }
     }
 }
