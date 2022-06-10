@@ -3,6 +3,7 @@ AuthController::redirectIfNotLogged(true);
 $course = null;
 if (isset($_GET['courseId'])) {
     $course = Course::findById($_GET['courseId']);
+    $steps = Step::findAllByCourseId($course->getId());
     if (!$course) {
         header("Location: /course/create");
     }
@@ -17,6 +18,7 @@ $imgSelected = in_array($imgSelected, ['sherlock.jpg', 'eye.jpg', 'globe.png']) 
 <?php include_once __DIR__ . '/../template/head.php' ?>
 <body>
 <script src="/js/imgSelector.js"></script>
+<script src="/js/addStep.js"></script>
 <?php include_once __DIR__ . '/../template/nav.php' ?>
 
 <section id="pageContent" class="container">
@@ -40,11 +42,63 @@ $imgSelected = in_array($imgSelected, ['sherlock.jpg', 'eye.jpg', 'globe.png']) 
             <label for="description" class="form-label fw-bold">Description</label>
             <textarea class="form-control" id="description" name="description" rows="3"><?= $course ? $course->getDescription() : '' ?></textarea>
         </div>
+        <div class="mb-3">
+            <button id="btnAddStep" class="btn btn-outline-success"><i class="fa fa-plus"></i> Ajouter une étape</button>
+        </div>
+        <div class="mb-3 <?php echo !isset($steps) || count($steps) == 0 ? 'hide-custom' : ''; ?>" id="divStepTable">
+            <table class="table table-bordered" id="stepTable" data-count="0">
+                <thead>
+                    <tr>
+                        <th>N° de l'étape</th>
+                        <th>Nom de l'étape</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+                        if(isset($steps)){
+                            foreach($steps as $index=>$step) {
+                                $answers = Answer::findAllByStepId($step->getId());
+                    ?>
+                                <tr id="step_<?php echo $step->getId(); ?>">
+                                    <td><span class="num-step"><?php echo $index+1 ?></span></td>
+                                    <td><a href="javascript:void(0)" class="change-step" data-id="<?php echo $step->getId(); ?>" data-name="<?php echo $step->getName(); ?>" data-description="<?php echo $step->getDescription(); ?>" data-question="<?php echo $step->getQuestion(); ?>" data-answer1="<?php echo $answers[0]->getLibelle(); ?>" data-answer2="<?php echo $answers[1]->getLibelle(); ?>" data-answer3="<?php echo $answers[2]->getLibelle(); ?>"><?php echo $step->getName(); ?></a></td>
+                                    <td><a href="javascript:void(0)" data-id="<?php echo $step->getId(); ?>" class="remove-step"><i class="fa fa-times fa-xl text-danger"></i></a></td>
+                                </tr>
+                    <?php 
+                            }
+                        }   
+                    ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="d-none" id="divStepHidden">
+            <?php 
+                if(isset($steps)){
+                    foreach($steps as $index=>$step) {
+                        $answers = Answer::findAllByStepId($step->getId());
+                        $val = [
+                            "name" => $step->getName(),
+                            "description" => $step->getDescription(),
+                            "question" => $step->getQuestion(),
+                            "url_img" => "/img/step.png", // Upload d'image non géré
+                            "answer1" => $answers[0]->getLibelle(),
+                            "answer2" => $answers[1]->getLibelle(),
+                            "answer3" => $answers[2]->getLibelle(),
+                        ]
+            ?>
+                        <input id="input_step_<?php echo $step->getId() ?>" type="hidden" name="step[]" value='<?php echo json_encode($val) ?>'>
+            <?php 
+                    }
+                }   
+            ?>
+        </div>
         <input type="hidden" id="courseId" name="courseId" value="<?= $course ? $course->getId() : '' ?>">
-        <button type="submit" class="btn btn-primary">Ajouter</button>
+        <button type="submit" class="btn btn-primary"><?php echo isset($_GET['courseId']) ? "Modifier" : "Ajouter" ?></button>
     </form>
 </section>
 
+<?php include_once __DIR__ . '/../partials/addStepModal.php' ?>
 <?php include_once __DIR__ . '/../template/footer.php' ?>
 </body>
 </html>

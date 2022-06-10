@@ -116,36 +116,40 @@ class Course
         return $result['count'];
     }
 
-    public static function create(string $name, ?string $url_img, ?string $description): bool
+    public static function create(string $name, ?string $url_img, ?string $description)
     {
         $date = new DateTime();
         $timezone = new DateTimeZone('Europe/Paris');
         $date->setTimezone($timezone);
         $pdo = Connexion::connect();
         $req = $pdo->prepare('INSERT INTO course (name, url_img, description, created_at, updated_at) VALUES (:name, :url_img, :description, :created_at, :updated_at)');
-        return $req->execute([
+        
+        $rep = $req->execute([
             'name' => $name,
             'url_img' => $url_img,
             'description' => $description,
             'created_at' => $date->format("Y-m-d H:i:s"),
             'updated_at' => $date->format("Y-m-d H:i:s")
         ]);
+        return $rep ? new Course($pdo->lastInsertId(), $name, $url_img, $description, $date, $date) : $rep;
     }
 
-    public static function update(int $id, string $name, ?string $url_img, ?string $description): bool
+    public static function update(int $id, string $name, ?string $url_img, ?string $description)
     {
         $date = new DateTime();
         $timezone = new DateTimeZone('Europe/Paris');
         $date->setTimezone($timezone);
         $pdo = Connexion::connect();
         $req = $pdo->prepare('UPDATE course SET name = :name, url_img = :url_img, description = :description, updated_at = :updated_at WHERE id = :id');
-        return $req->execute([
+        $rep = $req->execute([
             'name' => $name,
             'url_img' => $url_img,
             'description' => $description,
             'updated_at' => $date->format("Y-m-d H:i:s"),
             'id' => $id
         ]);
+
+        return $rep ? new Course($id, $name, $url_img, $description, $date, $date) : $rep;
     }
 
     public static function delete(int $id): bool
