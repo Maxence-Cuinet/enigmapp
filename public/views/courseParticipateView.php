@@ -26,19 +26,29 @@ $actualStep = $_POST['participation']['actualStep'];
         <div class="alert alert-light mb-5">
             <?= $steps[$actualStep]->getDescription() ?>
         </div>
-        <!-- @todo mettre ça dans une modale qui s'ouvre avec un bouton -->
-        <div>
-            <h4 class="mb-4">Quiz</h4>
-            <p><?= $steps[$actualStep]->getQuestion() ?></p>
-            <?php
-            $answers = Answer::findAllByStepId($steps[$actualStep]->getId());
-            foreach ($answers as $answer) {
-                ?>
-                <button type="button" class="btn btn-outline-dark me-3 answer"><?= $answer->getLibelle() ?></button>
-            <?php } ?>
-        </div>
+        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#quizModal">Afficher le Quiz !</button>
     </form>
 </section>
+
+<div class="modal fade" id="quizModal" tabindex="-1" aria-labelledby="quizModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="quizModalLabel"><?= $steps[$actualStep]->getQuestion() ?></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-muted text-center">
+                <?php
+                $answers = Answer::findAllByStepId($steps[$actualStep]->getId());
+                shuffle($answers);
+                foreach ($answers as $answer) {
+                    ?>
+                    <button type="button" class="btn btn-outline-info btn-lg me-3 answer"><?= $answer->getLibelle() ?></button>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+</div>
 
 <?php include_once __DIR__ . '/../template/footer.php' ?>
 </body>
