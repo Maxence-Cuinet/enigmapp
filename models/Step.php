@@ -116,6 +116,16 @@ class Step
         return $steps;
     }
 
+    public static function countByCourseId(int $course_id): int
+    {
+        $pdo = Connexion::connect();
+        $req = $pdo->prepare('SELECT count(*) as count FROM step where course_id = :id');
+        $req->bindParam("id", $course_id, PDO::PARAM_INT);
+        $req->execute();
+        $result = $req->fetch();
+        return $result['count'];
+    }
+
     public static function create(string $name, ?string $url_img, ?string $description, string $question, int $answer_id, int $course_id)
     {
         $pdo = Connexion::connect();
@@ -153,7 +163,7 @@ class Step
         return $req->execute(['id' => $id]);
     }
 
-    public static function deleteAllByCourseId(int $course_id)
+    public static function deleteAllByCourseId(int $course_id): bool
     {
         $pdo = Connexion::connect();
         $req = $pdo->prepare('DELETE FROM step WHERE course_id = :id');

@@ -22,6 +22,7 @@ if (!$course) {
             <?= $course->getDescription() ?>
         </div>
         <div>
+            <small class="text-muted">Ce jeu de piste contient <?= Step::countByCourseId($course->getId()) ?> étapes</small>
             <small class="float-end text-muted">Dernière modification le <?= $course->getUpdatedAt()->format('d/m/Y à H:i') ?></small>
         </div>
         <button type="submit" class="btn btn-primary mt-5">Confirmer la participation</button>
