@@ -8,13 +8,6 @@ if (isset($_GET['courseId'])) {
         header("Location: /course/create");
     }
 }
-if (isset($_POST['courseId'])) {
-    $course = Course::findById($_POST['courseId']);
-    $steps = Step::findAllByCourseId($course->getId());
-    if (!$course) {
-        header("Location: /course/create");
-    }
-}
 
 $imgSelected = $course ? basename($course->getUrlImg()) : 'sherlock.jpg';
 $imgSelected = in_array($imgSelected, ['sherlock.jpg', 'eye.jpg', 'globe.png']) ? $imgSelected : 'sherlock.jpg';
@@ -70,7 +63,7 @@ $imgSelected = in_array($imgSelected, ['sherlock.jpg', 'eye.jpg', 'globe.png']) 
                     ?>
                                 <tr id="step_<?php echo $step->getId(); ?>">
                                     <td><span class="num-step"><?php echo $index+1 ?></span></td>
-                                    <td><a href="javascript:void(0)" class="change-step" data-id="<?php echo $step->getId(); ?>" data-name="<?php echo $step->getName(); ?>" data-description="<?php echo $step->getDescription(); ?>" data-question="<?php echo $step->getQuestion(); ?>" data-answer1="<?php echo $answers[0]->getLibelle(); ?>" data-answer2="<?php echo $answers[1]->getLibelle(); ?>" data-answer3="<?php echo $answers[2]->getLibelle(); ?>"><?php echo $step->getName(); ?></a></td>
+                                    <td><a href="javascript:void(0)" class="change-step" data-id="<?php echo $step->getId(); ?>" data-name="<?php echo $step->getName(); ?>" data-description="<?php echo $step->getDescription(); ?>" data-question="<?php echo $step->getQuestion(); ?>" data-answer1="<?php echo $answers[0]->getLibelle(); ?>" data-answer2="<?php echo $answers[1]->getLibelle(); ?>" data-answer3="<?php echo $answers[2]->getLibelle(); ?>" data-indice="<?php echo $step->getIndice(); ?>" ><?php echo $step->getName(); ?></a></td>
                                     <td><a href="javascript:void(0)" data-id="<?php echo $step->getId(); ?>" class="remove-step"><i class="fa fa-times fa-xl text-danger"></i></a></td>
                                 </tr>
                     <?php 
@@ -93,6 +86,7 @@ $imgSelected = in_array($imgSelected, ['sherlock.jpg', 'eye.jpg', 'globe.png']) 
                             "answer1" => $answers[0]->getLibelle(),
                             "answer2" => $answers[1]->getLibelle(),
                             "answer3" => $answers[2]->getLibelle(),
+                            "indice" => $step->getIndice()
                         ]
             ?>
                         <input id="input_step_<?php echo $step->getId() ?>" type="hidden" name="step[]" value='<?php echo json_encode($val) ?>'>

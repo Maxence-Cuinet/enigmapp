@@ -3,12 +3,12 @@ $(document).ready(() => {
     
     $(document).on('click', '#btnAddStep', function(e){
         e.preventDefault()
-        let name = $('#nameAddStep').val('')
-        let description = $('#descriptionAddStep').val('')
-        let question = $('#questionAddStep').val('')
-        let answer1 = $('#answer1AddStep').val('')
-        let answer2 = $('#answer2AddStep').val('')
-        let answer3 = $('#answer3AddStep').val('')
+        $('#nameAddStep').val('')
+        $('#descriptionAddStep').val('')
+        $('#questionAddStep').val('')
+        $('#answer1AddStep').val('')
+        $('#answer2AddStep').val('')
+        $('#answer3AddStep').val('')
         $('#addStepModalLabel').text('Ajouter une étape')
 
         $('#btnSubmitAddStep').show()
@@ -18,16 +18,17 @@ $(document).ready(() => {
 
     $(document).on('submit', '#formAddStep', function(e){
         e.preventDefault()
-        let name = $('#nameAddStep').val()
-        let description = $('#descriptionAddStep').val()
-        let question = $('#questionAddStep').val()
-        let answer1 = $('#answer1AddStep').val()
-        let answer2 = $('#answer2AddStep').val()
-        let answer3 = $('#answer3AddStep').val()
+        let name = encodeHTMLEntities($('#nameAddStep').val())
+        let description = encodeHTMLEntities($('#descriptionAddStep').val())
+        let question = encodeHTMLEntities($('#questionAddStep').val())
+        let answer1 = encodeHTMLEntities($('#answer1AddStep').val())
+        let answer2 = encodeHTMLEntities($('#answer2AddStep').val())
+        let answer3 = encodeHTMLEntities($('#answer3AddStep').val())
+        let indice = encodeHTMLEntities($('#indiceAddStep').val())
 
         let rows = $('#stepTable > tbody > tr')
         let id = 1 + Math.floor(Math.random() * 1000) + Date.now(); //Génère un nb aléatoire en 1 et 1000 
-        let tr = $('<tr id="step_'+id+'"><td><span class="num-step"></span></td><td><a href="javascript:void(0)" class="change-step" data-id="'+id+'" data-name="'+name+'" data-description="'+description+'" data-question="'+question+'" data-answer1="'+answer1+'" data-answer2="'+answer2+'" data-answer3="'+answer3+'">'+name+'</a></td><td><a href="javascript:void(0)" data-id="'+id+'" class="remove-step"><i class="fa fa-times fa-xl text-danger"></i></a></td></tr>')
+        let tr = $('<tr id="step_'+id+'"><td><span class="num-step"></span></td><td><a href="javascript:void(0)" class="change-step" data-id="'+id+'" data-name="'+name+'" data-description="'+description+'" data-question="'+question+'" data-answer1="'+answer1+'" data-answer2="'+answer2+'" data-answer3="'+answer3+'" data-indice="'+indice+'">'+name+'</a></td><td><a href="javascript:void(0)" data-id="'+id+'" class="remove-step"><i class="fa fa-times fa-xl text-danger"></i></a></td></tr>')
         rows.push(tr)
         drawStepTable(rows)
 
@@ -42,20 +43,23 @@ $(document).ready(() => {
             "answer1": answer1,
             "answer2": answer2,
             "answer3": answer2,
+            "indice": indice,
         })
 
-        $('#divStepHidden').append('<input id="input_step_'+id+'" type="hidden" name="step[]" value=\''+val+'\'>')
+        $('#divStepHidden').append('<input id="input_step_'+id+'" type="hidden" name="step[]">')
+        $('#input_step_'+id).val(val)
 
     })
 
     $(document).on('click', '#btnSubmitChangeStep', function(e){
         e.preventDefault()
-        let name = $('#nameAddStep').val()
-        let description = $('#descriptionAddStep').val()
-        let question = $('#questionAddStep').val()
-        let answer1 = $('#answer1AddStep').val()
-        let answer2 = $('#answer2AddStep').val()
-        let answer3 = $('#answer3AddStep').val()
+        let name = encodeHTMLEntities($('#nameAddStep').val())
+        let description = encodeHTMLEntities($('#descriptionAddStep').val())
+        let question = encodeHTMLEntities($('#questionAddStep').val())
+        let answer1 = encodeHTMLEntities($('#answer1AddStep').val())
+        let answer2 = encodeHTMLEntities($('#answer2AddStep').val())
+        let answer3 = encodeHTMLEntities($('#answer3AddStep').val())
+        let indice = encodeHTMLEntities($('#indiceAddStep').val())
 
         let old_id = $(this).data('id')
         $('#step_'+old_id).remove()
@@ -63,7 +67,7 @@ $(document).ready(() => {
 
         let rows = $('#stepTable > tbody > tr')
         let id = 1 + Math.floor(Math.random() * 1000) + Date.now(); //Génère un nb aléatoire en 1 et 1000
-        let tr = $('<tr id="step_'+id+'"><td><span class="num-step"></span></td><td><a href="javascript:void(0)" class="change-step" data-id="'+id+'" data-name="'+name+'" data-description="'+description+'" data-question="'+question+'" data-answer1="'+answer1+'" data-answer2="'+answer2+'" data-answer3="'+answer3+'">'+name+'</a></td><td><a href="javascript:void(0)" data-id="'+id+'" class="remove-step"><i class="fa fa-times fa-xl text-danger"></i></a></td></tr>')
+        let tr = $('<tr id="step_'+id+'"><td><span class="num-step"></span></td><td><a href="javascript:void(0)" class="change-step" data-id="'+id+'" data-name="'+name+'" data-description="'+description+'" data-question="'+question+'" data-answer1="'+answer1+'" data-answer2="'+answer2+'" data-answer3="'+answer3+'" data-indice="'+indice+'">'+name+'</a></td><td><a href="javascript:void(0)" data-id="'+id+'" class="remove-step"><i class="fa fa-times fa-xl text-danger"></i></a></td></tr>')
         rows.push(tr)
         drawStepTable(rows)
 
@@ -78,10 +82,12 @@ $(document).ready(() => {
             "answer1": answer1,
             "answer2": answer2,
             "answer3": answer2,
+            "indice": indice.replace('"', '\\"'),
         })
 
         //name a modifier trouver le bon format
-        $('#divStepHidden').append('<input id="input_step_'+id+'" type="hidden" name="step[]" value=\''+val+'\'>')
+        $('#divStepHidden').append('<input id="input_step_'+id+'" type="hidden" name="step[]">')
+        $('#input_step_'+id).val(val)
     })
     $(document).on('click', '.change-step', function(e){
         e.preventDefault()
@@ -91,6 +97,7 @@ $(document).ready(() => {
         let answer1 = $(this).data('answer1')
         let answer2 = $(this).data('answer2')
         let answer3 = $(this).data('answer3')
+        let indice = $(this).data('indice')
 
         let id = $(this).data('id')
         $('#btnSubmitChangeStep').data('id', id)
@@ -103,6 +110,7 @@ $(document).ready(() => {
         $('#answer1AddStep').val(answer1)
         $('#answer2AddStep').val(answer2)
         $('#answer3AddStep').val(answer3)
+        $('#indiceAddStep').val(indice)
         $('#addStepModalLabel').text('Modifier une étape')
 
         $('#addStepModal').modal('show')
@@ -128,3 +136,8 @@ function drawStepTable(rows){
         $('#stepTable > tbody').append(rows[i])
     }
 }
+
+// Encode avec jQuery
+function encodeHTMLEntities(text) {
+    return $("<textarea/>").text(text).html();
+  }

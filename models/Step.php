@@ -5,13 +5,14 @@ class Step
 {
     private int $id;
     private string $name;
-    private ?string $url_img;
-    private ?string $description;
+    private string $url_img;
+    private string $description;
     private string $question;
     private int $answer_id;
     private int $course_id;
+    private string $indice;
 
-    public function __construct(int $id, string $name, ?string $url_img, ?string $description, string $question, int $answer_id, int $course_id)
+    public function __construct(int $id, string $name, string $url_img, string $description, string $question, int $answer_id, int $course_id, string $indice)
     {
         $this->id = $id;
         $this->name = $name;
@@ -20,6 +21,7 @@ class Step
         $this->question = $question;
         $this->answer_id = $answer_id;
         $this->course_id = $course_id;
+        $this->indice = $indice;
     }
 
     public function getId(): int
@@ -37,22 +39,22 @@ class Step
         $this->name = $name;
     }
 
-    public function getUrlImg(): ?string
+    public function getUrlImg(): string
     {
         return $this->url_img;
     }
 
-    public function setUrlImg(?string $url_img)
+    public function setUrlImg(string $url_img)
     {
         $this->url_img = $url_img;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setDescription(?string $description)
+    public function setDescription(string $description)
     {
         $this->description = $description;
     }
@@ -87,6 +89,16 @@ class Step
         $this->course_id = $course_id;
     }
 
+    public function getIndice(): ?string
+    {
+        return $this->indice;
+    }
+
+    public function setIndice(?string $indice)
+    {
+        $this->indice = $indice;
+    }
+
     /**
      * @param int $id
      * @return Step|false
@@ -98,7 +110,7 @@ class Step
         $req->execute(['id' => $id]);
 
         $step = $req->fetch();
-        return $step ? new Step($step['id'], $step['name'], $step['url_img'], $step['description'], $step['question'], $step['answer_id'], $step['course_id']) : false;
+        return $step ? new Step($step['id'], $step['name'], $step['url_img'], $step['description'], $step['question'], $step['answer_id'], $step['course_id'], $step['indice']) : false;
     }
 
     public static function findAllByCourseId(int $course_id): array
@@ -111,12 +123,12 @@ class Step
         $steps = [];
         while ($step = $req->fetch())
         {
-            $steps[] = new Step($step['id'], $step['name'], $step['url_img'], $step['description'], $step['question'], $step['answer_id'], $step['course_id']);
+            $steps[] = new Step($step['id'], $step['name'], $step['url_img'], $step['description'], $step['question'], $step['answer_id'], $step['course_id'], $step['indice']);
         }
         return $steps;
     }
 
-    public static function create(string $name, ?string $url_img, ?string $description, string $question, int $answer_id, int $course_id)
+    public static function create(string $name, string $url_img, string $description, string $question, int $answer_id, int $course_id, ?string $indice)
     {
         $pdo = Connexion::connect();
         $req = $pdo->prepare('INSERT INTO step (name, url_img, description, question, answer_id, course_id) VALUES (:name, :url_img, :description, :question, :answer_id, :course_id)');
@@ -128,13 +140,13 @@ class Step
             'answer_id' => $answer_id, 
             'course_id' => $course_id
         ]);
-        return $rep ? new Step($pdo->lastInsertId(), $name, $url_img, $description, $question, $answer_id, $course_id) : $rep;
+        return $rep ? new Step($pdo->lastInsertId(), $name, $url_img, $description, $question, $answer_id, $course_id, $indice) : $rep;
     }
 
-    public static function update(int $id, string $name, ?string $url_img, ?string $description, string $question, int $answer_id, int $course_id): bool
+    public static function update(int $id, string $name, string $url_img, string $description, string $question, int $answer_id, int $course_id, ?string $indice): bool
     {
         $pdo = Connexion::connect();
-        $req = $pdo->prepare('UPDATE step SET name = :name, url_img = :url_img, description = :description, question = :question, answer_id = :answer_id, course_id = :course_id WHERE id = :id');
+        $req = $pdo->prepare('UPDATE step SET name = :name, url_img = :url_img, description = :description, question = :question, answer_id = :answer_id, course_id = :course_id, indice = :indice WHERE id = :id');
         return $req->execute([
             'name' => $name, 
             'url_img' => $url_img, 
@@ -142,6 +154,7 @@ class Step
             'question' => $question, 
             'answer_id' => $answer_id, 
             'course_id' => $course_id,
+            'indice' => $indice,
             'id' => $id
         ]);
     }

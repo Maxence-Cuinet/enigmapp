@@ -55,6 +55,12 @@
                                 <input type="text" class="form form-control" name="answer3" id="answer3AddStep" required>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col">
+                                <strong><label for="">Indice (Sera montrer si le joueur se trompe une fois) : </label></strong>
+                                <input type="text" class="form form-control" name="indice" id="indiceAddStep">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
