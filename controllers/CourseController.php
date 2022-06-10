@@ -33,29 +33,19 @@ class CourseController
 
             //On supprime ensuite toutes les étapes
             Step::deleteAllByCourseId($course->getId());
-
-            //On ajoute les étapes et les réponses passés par le formulaire
-            foreach($_POST['step'] as $json){
-                $step_array = json_decode($json, true);
-                $step = Step::create($step_array['name'], $step_array['url_img'], $step_array['description'], $step_array['question'], 0, $course->getId());
-                $answer1 = Answer::create($step->getId(), $step_array['answer1']);
-                Step::update($step->getId(), $step->getName(), $step->getUrlImg(), $step->getDescription(), $step->getQuestion(), $answer1->getId(), $course->getId());
-                $answer2 = Answer::create($step->getId(), $step_array['answer2']);
-                $answer3 = Answer::create($step->getId(), $step_array['answer3']);
-            }
         } else {
             //On enregistre le jeu de piste
             $course = Course::create($_POST['name'], $_POST['image'], $_POST['description']);
+        }
 
-            //On ajoute les étapes et les réponses passés par le formulaire
-            foreach($_POST['step'] as $json){
-                $step_array = json_decode($json, true);
-                $step = Step::create($step_array['name'], $step_array['url_img'], $step_array['description'], $step_array['question'], 0, $course->getId());
-                $answer1 = Answer::create($step->getId(), $step_array['answer1']);
-                Step::update($step->getId(), $step->getName(), $step->getUrlImg(), $step->getDescription(), $step->getQuestion(), $answer1->getId(), $course->getId());
-                $answer2 = Answer::create($step->getId(), $step_array['answer2']);
-                $answer3 = Answer::create($step->getId(), $step_array['answer3']);
-            }
+        //On ajoute les étapes et les réponses passés par le formulaire
+        foreach($_POST['step'] as $json){
+            $step_array = json_decode($json, true);
+            $step = Step::create($step_array['name'], $step_array['url_img'], $step_array['description'], $step_array['question'], 0, $course->getId());
+            $answer1 = Answer::create($step->getId(), $step_array['answer1']);
+            Step::update($step->getId(), $step->getName(), $step->getUrlImg(), $step->getDescription(), $step->getQuestion(), $answer1->getId(), $course->getId());
+            Answer::create($step->getId(), $step_array['answer2']);
+            Answer::create($step->getId(), $step_array['answer3']);
         }
 
         if ($course) {
