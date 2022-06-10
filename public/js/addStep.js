@@ -31,7 +31,7 @@ $(document).ready(() => {
             "name": name,
             "description": description,
             "question": question,
-            "url_img": "/img/step.png",
+            "url_img": "/img/step.png", //On ne gère pas encore l'upload de fichier à faire plus tard
             "answer1": answer1,
             "answer2": answer2,
             "answer3": answer2,
@@ -67,7 +67,7 @@ $(document).ready(() => {
             "name": name,
             "description": description,
             "question": question,
-            "url_img": "/img/step.png",
+            "url_img": "/img/step.png", //On ne gère pas encore l'upload de fichier à faire plus tard
             "answer1": answer1,
             "answer2": answer2,
             "answer3": answer2,

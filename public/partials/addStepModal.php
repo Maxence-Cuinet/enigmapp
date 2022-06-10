@@ -21,6 +21,7 @@
                             </div>
                         </div>
                         <br>
+                        <!--
                         <div class="row">
                             <div class="col">
                                 <strong><label for="">Illustration :</label></strong>
@@ -28,7 +29,7 @@
                                 <i>Une image par défaut sera utilisée si vous n'en ajouter pas</i> <a href="javascript:void(0)" data-bs-trigger="hover" data-bs-html="true" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="<img src='/img/step.png' class='img-fluid'>"><i class="fa fa-info-circle"></i></a>
                             </div>
                         </div>
-                        <br>
+                        <br> ON NE GERE PAS ENCORE L'UPLOAD DE FICHIER A FAIRE PLUS TARD -->
                         <div class="row">
                             <div class="col">
                                 <strong><label for="">Question* :</label></strong>
