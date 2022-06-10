@@ -8,6 +8,13 @@ if (isset($_GET['courseId'])) {
         header("Location: /course/create");
     }
 }
+if (isset($_POST['courseId'])) {
+    $course = Course::findById($_POST['courseId']);
+    $steps = Step::findAllByCourseId($course->getId());
+    if (!$course) {
+        header("Location: /course/create");
+    }
+}
 
 $imgSelected = $course ? basename($course->getUrlImg()) : 'sherlock.jpg';
 $imgSelected = in_array($imgSelected, ['sherlock.jpg', 'eye.jpg', 'globe.png']) ? $imgSelected : 'sherlock.jpg';
@@ -24,6 +31,7 @@ $imgSelected = in_array($imgSelected, ['sherlock.jpg', 'eye.jpg', 'globe.png']) 
 <section id="pageContent" class="container">
     <h3>Création d'un jeu de piste</h3>
     <form class="mt-4 mb-5" action="/course/create/submit" method="post">
+        <?php include_once __DIR__ . '/../template/displayErrorsSuccess.php' ?>
         <div class="mb-3">
             <label for="name" class="form-label fw-bold">Nom du jeu de piste *</label>
             <input type="text" class="form-control" id="name" name="name" value="<?= $course ? $course->getName() : '' ?>" required>
@@ -94,7 +102,7 @@ $imgSelected = in_array($imgSelected, ['sherlock.jpg', 'eye.jpg', 'globe.png']) 
             ?>
         </div>
         <input type="hidden" id="courseId" name="courseId" value="<?= $course ? $course->getId() : '' ?>">
-        <button type="submit" class="btn btn-primary"><?php echo isset($_GET['courseId']) ? "Modifier" : "Ajouter" ?></button>
+        <button type="submit" class="btn btn-primary"><?php echo isset($course) ? "Modifier" : "Ajouter" ?></button>
     </form>
 </section>
 

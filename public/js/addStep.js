@@ -3,6 +3,14 @@ $(document).ready(() => {
     
     $(document).on('click', '#btnAddStep', function(e){
         e.preventDefault()
+        let name = $('#nameAddStep').val('')
+        let description = $('#descriptionAddStep').val('')
+        let question = $('#questionAddStep').val('')
+        let answer1 = $('#answer1AddStep').val('')
+        let answer2 = $('#answer2AddStep').val('')
+        let answer3 = $('#answer3AddStep').val('')
+        $('#addStepModalLabel').text('Ajouter une étape')
+
         $('#btnSubmitAddStep').show()
         $('#btnSubmitChangeStep').hide()
         $('#addStepModal').modal('show')
@@ -21,7 +29,6 @@ $(document).ready(() => {
         let id = 1 + Math.floor(Math.random() * 1000) + Date.now(); //Génère un nb aléatoire en 1 et 1000 
         let tr = $('<tr id="step_'+id+'"><td><span class="num-step"></span></td><td><a href="javascript:void(0)" class="change-step" data-id="'+id+'" data-name="'+name+'" data-description="'+description+'" data-question="'+question+'" data-answer1="'+answer1+'" data-answer2="'+answer2+'" data-answer3="'+answer3+'">'+name+'</a></td><td><a href="javascript:void(0)" data-id="'+id+'" class="remove-step"><i class="fa fa-times fa-xl text-danger"></i></a></td></tr>')
         rows.push(tr)
-        console.log(rows)
         drawStepTable(rows)
 
         $('#addStepModal').modal('hide')
@@ -37,8 +44,8 @@ $(document).ready(() => {
             "answer3": answer2,
         })
 
-
         $('#divStepHidden').append('<input id="input_step_'+id+'" type="hidden" name="step[]" value=\''+val+'\'>')
+
     })
 
     $(document).on('click', '#btnSubmitChangeStep', function(e){
@@ -96,6 +103,7 @@ $(document).ready(() => {
         $('#answer1AddStep').val(answer1)
         $('#answer2AddStep').val(answer2)
         $('#answer3AddStep').val(answer3)
+        $('#addStepModalLabel').text('Modifier une étape')
 
         $('#addStepModal').modal('show')
     });

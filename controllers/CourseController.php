@@ -18,49 +18,57 @@ class CourseController
     public static function addCourse()
     {
         if (!isset($_POST['name']) || !isset($_POST['image']) || !isset($_POST['description'])) {
-            header("Location: /add-course");
+            header("Location: /course/create");
         }
 
-        if ($_POST['courseId']) {
-            //On met à jour le jeu de piste
-            $course = Course::update($_POST['courseId'], $_POST['name'], $_POST['image'], $_POST['description']);
-
-            //On commence par supprimer toutes les réponses liés aux étapes
-            $steps = Step::findAllByCourseId($course->getId());
-            foreach($steps as $step){
-                Answer::deleteByStepId($step->getId());
-            }
-
-            //On supprime ensuite toutes les étapes
-            Step::deleteAllByCourseId($course->getId());
-
-            //On ajoute les étapes et les réponses passés par le formulaire
-            foreach($_POST['step'] as $json){
-                $step_array = json_decode($json, true);
-                $step = Step::create($step_array['name'], $step_array['url_img'], $step_array['description'], $step_array['question'], 0, $course->getId());
-                $answer1 = Answer::create($step->getId(), $step_array['answer1']);
-                Step::update($step->getId(), $step->getName(), $step->getUrlImg(), $step->getDescription(), $step->getQuestion(), $answer1->getId(), $course->getId());
-                $answer2 = Answer::create($step->getId(), $step_array['answer2']);
-                $answer3 = Answer::create($step->getId(), $step_array['answer3']);
-            }
+        if(!isset($_POST['step'])) {
+            $_POST['errors'][] = "Le jeu de piste doit avoir au moins une étape";
+            /*if($_POST['courseId']) {
+                header("Location: /course/create?courseId=" . $_POST['courseId']);
+            }*/
+            
         } else {
-            //On enregistre le jeu de piste
-            $course = Course::create($_POST['name'], $_POST['image'], $_POST['description']);
+            if ($_POST['courseId']) {
+                //On met à jour le jeu de piste
+                $course = Course::update($_POST['courseId'], $_POST['name'], $_POST['image'], $_POST['description']);
 
-            //On ajoute les étapes et les réponses passés par le formulaire
-            foreach($_POST['step'] as $json){
-                $step_array = json_decode($json, true);
-                $step = Step::create($step_array['name'], $step_array['url_img'], $step_array['description'], $step_array['question'], 0, $course->getId());
-                $answer1 = Answer::create($step->getId(), $step_array['answer1']);
-                Step::update($step->getId(), $step->getName(), $step->getUrlImg(), $step->getDescription(), $step->getQuestion(), $answer1->getId(), $course->getId());
-                $answer2 = Answer::create($step->getId(), $step_array['answer2']);
-                $answer3 = Answer::create($step->getId(), $step_array['answer3']);
+                //On commence par supprimer toutes les réponses liés aux étapes
+                $steps = Step::findAllByCourseId($course->getId());
+                foreach($steps as $step){
+                    Answer::deleteByStepId($step->getId());
+                }
+
+                //On supprime ensuite toutes les étapes
+                Step::deleteAllByCourseId($course->getId());
+
+                //On ajoute les étapes et les réponses passés par le formulaire
+                foreach($_POST['step'] as $json){
+                    $step_array = json_decode($json, true);
+                    $step = Step::create($step_array['name'], $step_array['url_img'], $step_array['description'], $step_array['question'], 0, $course->getId());
+                    $answer1 = Answer::create($step->getId(), $step_array['answer1']);
+                    Step::update($step->getId(), $step->getName(), $step->getUrlImg(), $step->getDescription(), $step->getQuestion(), $answer1->getId(), $course->getId());
+                    $answer2 = Answer::create($step->getId(), $step_array['answer2']);
+                    $answer3 = Answer::create($step->getId(), $step_array['answer3']);
+                }
+            } else {
+                //On enregistre le jeu de piste
+                $course = Course::create($_POST['name'], $_POST['image'], $_POST['description']);
+
+                //On ajoute les étapes et les réponses passés par le formulaire
+                foreach($_POST['step'] as $json){
+                    $step_array = json_decode($json, true);
+                    $step = Step::create($step_array['name'], $step_array['url_img'], $step_array['description'], $step_array['question'], 0, $course->getId());
+                    $answer1 = Answer::create($step->getId(), $step_array['answer1']);
+                    Step::update($step->getId(), $step->getName(), $step->getUrlImg(), $step->getDescription(), $step->getQuestion(), $answer1->getId(), $course->getId());
+                    $answer2 = Answer::create($step->getId(), $step_array['answer2']);
+                    $answer3 = Answer::create($step->getId(), $step_array['answer3']);
+                }
+            }
+            if ($course) {
+                header("Location: /");
             }
         }
-
-        if ($course) {
-            header("Location: /");
-        }
+        
     }
 
     public static function deleteCourse()
