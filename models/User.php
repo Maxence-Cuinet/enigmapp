@@ -136,7 +136,7 @@ class User
         return false;
     }
 
-    public static function findAll(): array
+    public static function findAll(bool $asArray = false): array
     {
         $pdo = Connexion::connect();
         $req = $pdo->prepare('SELECT * FROM user');
@@ -146,7 +146,19 @@ class User
         while ($user = $req->fetch())
         {
             $generate_key_date = new DateTime($user['generate_key_date']);
-            $users[] = new User($user['id'], $user['mail'], $user['username'], $user['password'], $user['is_admin'], $user['secret_key'], $generate_key_date);
+            if ($asArray) {
+                $users[] = [
+                    'id' => $user['id'],
+                    'mail' => $user['mail'],
+                    'username' => $user['username'],
+                    'password' => $user['password'],
+                    'is_admin' => $user['is_admin'],
+                    'secret_key' => $user['secret_key'],
+                    'generate_key_date' => $generate_key_date
+                ];
+            } else {
+                $users[] = new User($user['id'], $user['mail'], $user['username'], $user['password'], $user['is_admin'], $user['secret_key'], $generate_key_date);
+            }
         }
         return $users;
     }

@@ -69,6 +69,9 @@ switch ($request[0]) {
                 break;
         }
         break;
+    case 'users':
+        UserController::getAllUsers();
+        break;
     default:
         http_response_code(404);
         break;
