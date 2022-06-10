@@ -40,8 +40,9 @@ $(document).ready(() => {
         })
     });
 
-    $(document.body).on("click","tr[data-href]", function () {
-        window.location.href = this.dataset.href;
+    $(document.body).on("click",".view-description", function () {
+        let href = $(this).parent().data("href")
+        window.location.href = href;
     });
 
     $('[data-bs-toggle="popover"]').popover();

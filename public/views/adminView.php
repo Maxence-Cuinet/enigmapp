@@ -60,17 +60,17 @@ $search = $_GET['q'] ?? null;
                                     <i class="fa fa-trash text-danger fa-xl"></i></a>
                             </div>
                         </td>
-                        <th scope="row"><?= $course->getId() ?></th>
-                        <td class="text-truncate" style="max-width: 100px;"><?= $course->getName() ?></td>
-                        <td class="text-truncate d-none d-lg-table-cell" style="max-width: 250px;"
+                        <th class="view-description" scope="row"><?= $course->getId() ?></th>
+                        <td class="view-description text-truncate" style="max-width: 100px;"><?= $course->getName() ?></td>
+                        <td class="view-description text-truncate d-none d-lg-table-cell" style="max-width: 250px;"
                             data-bs-toggle="popover" data-bs-placement="bottom"
                             data-bs-content="<img class='img-fluid' src='<?= $course->getUrlImg() ?>'>"
                             data-bs-html="true" data-bs-trigger="hover">
                             <?= $course->getUrlImg() ?>
                         </td>
-                        <td class="text-truncate d-none d-md-table-cell" style="max-width: 200px;"><?= $course->getDescription()  ?></td>
-                        <td class="d-none d-sm-table-cell"><?= $course->getCreatedAt()->format('d/m/Y') ?></td>
-                        <td class="text-center"><?= $course->getUpdatedAt()->format('d/m/Y - H:i') ?></td>
+                        <td class="view-description text-truncate d-none d-md-table-cell" style="max-width: 200px;"><?= $course->getDescription()  ?></td>
+                        <td class="view-description d-none d-sm-table-cell"><?= $course->getCreatedAt()->format('d/m/Y') ?></td>
+                        <td class="view-description text-center"><?= $course->getUpdatedAt()->format('d/m/Y - H:i') ?></td>
                         <td class="d-none d-md-table-cell">
                             <div class="d-flex">
                                 <a href="/course/create?courseId=<?= $course->getId() ?>" class="me-3">
