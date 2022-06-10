@@ -1,3 +1,6 @@
+<?php
+$search = $_GET['q'] ?? null;
+?>
 <div class="row mt-4">
     <div class="col d-flex justify-content-center">
         <nav aria-label="Page navigation example">

@@ -1,6 +1,5 @@
 <?php
 $_SESSION['homeView'] = 'default';
-$search = $_GET['q'] ?? null;
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +22,7 @@ $search = $_GET['q'] ?? null;
     </div>
     <div class="d-flex justify-content-end mb-5">
         <form class="input-group search">
-            <input type="text" class="form-control" id="search" value="<?= $search ?>"><label for="search"></label>
+            <input type="text" class="form-control" id="search" value="<?= $_GET['q'] ?? null ?>"><label for="search"></label>
             <button type="submit" class="btn btn-outline-secondary" id="search-button">Recherche</button>
         </form>
     </div>
