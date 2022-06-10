@@ -10,10 +10,10 @@ $search = $_GET['q'] ?? null;
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <?php if (in_array($_POST['page'], [1, 2])) { ?>
+                <?php if ($_POST['max'] < 4 || in_array($_POST['page'], [1, 2])) { ?>
                     <li class="page-item <?= $_POST['page'] == 1 ? 'active' : ''?>"><a class="page-link" href="/home?page=1<?= $search ? "&q={$search}" : '' ?>">1</a></li>
                     <li class="page-item <?= $_POST['page'] == 2 ? 'active' : ''?> <?= $_POST['max'] < 2 ? 'disabled' : ''?>"><a class="page-link" href="/home?page=2<?= $search ? "&q={$search}" : '' ?>">2</a></li>
-                    <li class="page-item <?= $_POST['max'] < 3 ? 'disabled' : ''?>"><a class="page-link" href="/home?page=3<?= $search ? "&q={$search}" : '' ?>">3</a></li>
+                    <li class="page-item <?= $_POST['page'] == 3 ? 'active' : ''?> <?= $_POST['max'] < 3 ? 'disabled' : ''?>"><a class="page-link" href="/home?page=3<?= $search ? "&q={$search}" : '' ?>">3</a></li>
                     <li class="page-item <?= $_POST['max'] < 4 ? 'disabled' : ''?>"><a class="page-link" href="/home?page=4<?= $search ? "&q={$search}" : '' ?>">4</a></li>
                     <li class="page-item <?= $_POST['max'] < 5 ? 'disabled' : ''?>"><a class="page-link" href="/home?page=5<?= $search ? "&q={$search}" : '' ?>">5</a></li>
                 <?php } else if (in_array($_POST['page'], [$_POST['max'], $_POST['max'] - 1])) { ?>
