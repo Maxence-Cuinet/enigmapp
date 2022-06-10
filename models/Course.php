@@ -118,18 +118,20 @@ class Course
         return $rep ? new Course($pdo->lastInsertId(), $name, $url_img, $description, $date, $date) : $rep;
     }
 
-    public static function update(int $id, string $name, ?string $url_img, ?string $description): bool
+    public static function update(int $id, string $name, ?string $url_img, ?string $description)
     {
         $date = new DateTime();
         $pdo = Connexion::connect();
         $req = $pdo->prepare('UPDATE course SET name = :name, url_img = :url_img, description = :description, updated_at = :updated_at WHERE id = :id');
-        return $req->execute([
+        $rep = $req->execute([
             'name' => $name,
             'url_img' => $url_img,
             'description' => $description,
             'updated_at' => $date->format("Y-m-d H:i:s"),
             'id' => $id
         ]);
+
+        return $rep ? new Course($id, $name, $url_img, $description, $date, $date) : $rep;
     }
 
     public static function delete(int $id): bool

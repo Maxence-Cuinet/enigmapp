@@ -18,7 +18,7 @@ $(document).ready(() => {
         let answer3 = $('#answer3AddStep').val()
 
         let rows = $('#stepTable > tbody > tr')
-        let id = 1 + Math.floor(Math.random() * 1000); //Génère un nb aléatoire en 1 et 1000
+        let id = 1 + Math.floor(Math.random() * 1000) + Date.now(); //Génère un nb aléatoire en 1 et 1000 
         let tr = $('<tr id="step_'+id+'"><td><span class="num-step"></span></td><td><a href="javascript:void(0)" class="change-step" data-id="'+id+'" data-name="'+name+'" data-description="'+description+'" data-question="'+question+'" data-answer1="'+answer1+'" data-answer2="'+answer2+'" data-answer3="'+answer3+'">'+name+'</a></td><td><a href="javascript:void(0)" data-id="'+id+'" class="remove-step"><i class="fa fa-times fa-xl text-danger"></i></a></td></tr>')
         rows.push(tr)
         console.log(rows)
@@ -52,9 +52,10 @@ $(document).ready(() => {
 
         let old_id = $(this).data('id')
         $('#step_'+old_id).remove()
+        $('#input_step_'+old_id).remove()
 
         let rows = $('#stepTable > tbody > tr')
-        let id = 1 + Math.floor(Math.random() * 1000); //Génère un nb aléatoire en 1 et 1000
+        let id = 1 + Math.floor(Math.random() * 1000) + Date.now(); //Génère un nb aléatoire en 1 et 1000
         let tr = $('<tr id="step_'+id+'"><td><span class="num-step"></span></td><td><a href="javascript:void(0)" class="change-step" data-id="'+id+'" data-name="'+name+'" data-description="'+description+'" data-question="'+question+'" data-answer1="'+answer1+'" data-answer2="'+answer2+'" data-answer3="'+answer3+'">'+name+'</a></td><td><a href="javascript:void(0)" data-id="'+id+'" class="remove-step"><i class="fa fa-times fa-xl text-danger"></i></a></td></tr>')
         rows.push(tr)
         drawStepTable(rows)

@@ -93,7 +93,14 @@ class Answer
     public static function delete(int $id): bool
     {
         $pdo = Connexion::connect();
-        $req = $pdo->prepare('DELETE FROM answer_id WHERE id = :id');
+        $req = $pdo->prepare('DELETE FROM answer WHERE id = :id');
         return $req->execute(['id' => $id]);
+    }
+
+    public static function deleteByStepId(int $step_id)
+    {
+        $pdo = Connexion::connect();
+        $req = $pdo->prepare('DELETE FROM answer WHERE step_id = :id');
+        return $req->execute(['id' => $step_id]);
     }
 }

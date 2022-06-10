@@ -152,4 +152,11 @@ class Step
         $req = $pdo->prepare('DELETE FROM step WHERE id = :id');
         return $req->execute(['id' => $id]);
     }
+
+    public static function deleteAllByCourseId(int $course_id)
+    {
+        $pdo = Connexion::connect();
+        $req = $pdo->prepare('DELETE FROM step WHERE course_id = :id');
+        return $req->execute(['id' => $course_id]);
+    }
 }
