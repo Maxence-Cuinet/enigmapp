@@ -87,18 +87,29 @@ class Step
         $this->course_id = $course_id;
     }
 
-    /**
-     * @param int $id
-     * @return Step|false
-     */
-    public static function findById(int $id)
+    public static function findById(int $id, bool $asArray = false)
     {
         $pdo = Connexion::connect();
         $req = $pdo->prepare('SELECT * FROM step WHERE id = :id');
         $req->execute(['id' => $id]);
 
         $step = $req->fetch();
-        return $step ? new Step($step['id'], $step['name'], $step['url_img'], $step['description'], $step['question'], $step['answer_id'], $step['course_id']) : false;
+        if ($step) {
+            if ($asArray) {
+                return [
+                    'id' => $step['id'],
+                    'name' => $step['name'],
+                    'url_img' => $step['url_img'],
+                    'description' => $step['description'],
+                    'question' => $step['question'],
+                    'answer_id' => $step['answer_id'],
+                    'course_id' => $step['course_id']
+                ];
+            } else {
+                return new Step($step['id'], $step['name'], $step['url_img'], $step['description'], $step['question'], $step['answer_id'], $step['course_id']);
+            }
+        }
+        return false;
     }
 
     public static function findAllByCourseId(int $course_id): array

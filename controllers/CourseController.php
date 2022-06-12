@@ -27,7 +27,12 @@ class CourseController
             $participation = Participation::create($_SESSION['user']['id'], $_GET['courseId'], 'inProgress');
             $_POST['participation']['id'] = $participation->getId();
         }
-        $_POST['participation']['actualStep'] = 0;
+
+        if (isset($_POST['next-step'])) {
+            $_POST['participation']['actualStep'] = $_POST['next-step'];
+        } else {
+            $_POST['participation']['actualStep'] = 0;
+        }
 
         require __DIR__ . '/../public/views/courseParticipateView.php';
     }
@@ -96,5 +101,21 @@ class CourseController
             ], JSON_UNESCAPED_UNICODE);
         }
         die;
+    }
+
+    public static function getOneStep(?int $id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+            header('HTTP/1.1 404 Not Found');die;
+        }
+
+        if ($id === null) {
+            header('HTTP/1.1 400 Bad Request');die;
+        }
+
+        $users = Step::findById($id, true);
+        header('HTTP/1.1 200 Ok');
+        header('Content-Type: application/json');
+        echo json_encode($users, JSON_PRETTY_PRINT);
     }
 }

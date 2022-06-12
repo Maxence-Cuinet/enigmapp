@@ -75,6 +75,9 @@ switch ($request[0]) {
     case 'users':
         UserController::getAllUsers();
         break;
+    case 'step':
+        CourseController::getOneStep($request[1] ?? null);
+        break;
     default:
         http_response_code(404);
         break;
