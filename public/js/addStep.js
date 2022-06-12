@@ -34,7 +34,7 @@ $(document).ready(() => {
             "url_img": "/img/step.png", //On ne gère pas encore l'upload de fichier à faire plus tard
             "answer1": answer1,
             "answer2": answer2,
-            "answer3": answer2,
+            "answer3": answer3,
         })
 
 
@@ -70,7 +70,7 @@ $(document).ready(() => {
             "url_img": "/img/step.png", //On ne gère pas encore l'upload de fichier à faire plus tard
             "answer1": answer1,
             "answer2": answer2,
-            "answer3": answer2,
+            "answer3": answer3,
         })
 
         //name a modifier trouver le bon format

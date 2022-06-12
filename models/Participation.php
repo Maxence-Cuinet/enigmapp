@@ -136,9 +136,12 @@ class Participation
         $req->execute(['user_id' => $userId]);
 
         $participation = $req->fetch();
-        $startDate = new DateTime($participation['start_date']);
-        $endDate = new DateTime($participation['end_date']);
-        return $participation ? new Participation($participation['id'], $participation['user_id'], $participation['course_id'], $startDate, $endDate, $participation['state']) : false;
+        if ($participation) {
+            $startDate = new DateTime($participation['start_date']);
+            $endDate = new DateTime($participation['end_date']);
+            return new Participation($participation['id'], $participation['user_id'], $participation['course_id'], $startDate, $endDate, $participation['state']);
+        }
+        return false;
     }
 
     public static function findAll(): array
