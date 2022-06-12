@@ -10,6 +10,12 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col">
+                                <strong><label for="">N° de l'étape* :</label></strong>
+                                <input type="number" class="form form-control" name="order" id="orderAddStep" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
                                 <strong><label for="">Nom de l'étape* :</label></strong>
                                 <input type="text" class="form form-control" name="name" id="nameAddStep" required>
                             </div>

@@ -11,8 +11,9 @@ class Step
     private int $answer_id;
     private int $course_id;
     private string $indice;
+    private int $order;
 
-    public function __construct(int $id, string $name, string $url_img, string $description, string $question, int $answer_id, int $course_id, string $indice)
+    public function __construct(int $id, string $name, string $url_img, string $description, string $question, int $answer_id, int $course_id, string $indice, int $order)
     {
         $this->id = $id;
         $this->name = $name;
@@ -22,6 +23,7 @@ class Step
         $this->answer_id = $answer_id;
         $this->course_id = $course_id;
         $this->indice = $indice;
+        $this->order = $order;
     }
 
     public function getId(): int
@@ -99,6 +101,16 @@ class Step
         $this->indice = $indice;
     }
 
+    public function getOrder(): int
+    {
+        return $this->order;
+    }
+
+    public function setOrder(int $order)
+    {
+        $this->order = $order;
+    }
+
     /**
      * @param int $id
      * @return Step|false
@@ -110,43 +122,45 @@ class Step
         $req->execute(['id' => $id]);
 
         $step = $req->fetch();
-        return $step ? new Step($step['id'], $step['name'], $step['url_img'], $step['description'], $step['question'], $step['answer_id'], $step['course_id'], $step['indice']) : false;
+        return $step ? new Step($step['id'], $step['name'], $step['url_img'], $step['description'], $step['question'], $step['answer_id'], $step['course_id'], $step['indice'], $step['order']) : false;
     }
 
     public static function findAllByCourseId(int $course_id): array
     {
         $pdo = Connexion::connect();
 
-        $req = $pdo->prepare('SELECT * FROM step where course_id = :id');
+        $req = $pdo->prepare('SELECT * FROM step where course_id = :id ORDER BY `order` asc');
         $req->bindParam("id", $course_id, PDO::PARAM_INT);
         $req->execute();
         $steps = [];
         while ($step = $req->fetch())
         {
-            $steps[] = new Step($step['id'], $step['name'], $step['url_img'], $step['description'], $step['question'], $step['answer_id'], $step['course_id'], $step['indice']);
+            $steps[] = new Step($step['id'], $step['name'], $step['url_img'], $step['description'], $step['question'], $step['answer_id'], $step['course_id'], $step['indice'], $step['order']);
         }
         return $steps;
     }
 
-    public static function create(string $name, string $url_img, string $description, string $question, int $answer_id, int $course_id, ?string $indice)
+    public static function create(string $name, string $url_img, string $description, string $question, int $answer_id, int $course_id, ?string $indice, int $order)
     {
         $pdo = Connexion::connect();
-        $req = $pdo->prepare('INSERT INTO step (name, url_img, description, question, answer_id, course_id) VALUES (:name, :url_img, :description, :question, :answer_id, :course_id)');
+        $req = $pdo->prepare('INSERT INTO step (name, url_img, description, question, answer_id, course_id, indice, `order`) VALUES (:name, :url_img, :description, :question, :answer_id, :course_id, :indice, :order)');
         $rep = $req->execute([
             'name' => $name, 
             'url_img' => $url_img, 
             'description' => $description, 
             'question' => $question, 
             'answer_id' => $answer_id, 
-            'course_id' => $course_id
+            'course_id' => $course_id,
+            'indice' => $indice,
+            'order' => $order
         ]);
-        return $rep ? new Step($pdo->lastInsertId(), $name, $url_img, $description, $question, $answer_id, $course_id, $indice) : $rep;
+        return $rep ? new Step($pdo->lastInsertId(), $name, $url_img, $description, $question, $answer_id, $course_id, $indice, $order) : $rep;
     }
 
-    public static function update(int $id, string $name, string $url_img, string $description, string $question, int $answer_id, int $course_id, ?string $indice): bool
+    public static function update(int $id, string $name, string $url_img, string $description, string $question, int $answer_id, int $course_id, ?string $indice, $order): bool
     {
         $pdo = Connexion::connect();
-        $req = $pdo->prepare('UPDATE step SET name = :name, url_img = :url_img, description = :description, question = :question, answer_id = :answer_id, course_id = :course_id, indice = :indice WHERE id = :id');
+        $req = $pdo->prepare('UPDATE step SET name = :name, url_img = :url_img, description = :description, question = :question, answer_id = :answer_id, course_id = :course_id, indice = :indice, order = :order WHERE id = :id');
         return $req->execute([
             'name' => $name, 
             'url_img' => $url_img, 
@@ -155,6 +169,7 @@ class Step
             'answer_id' => $answer_id, 
             'course_id' => $course_id,
             'indice' => $indice,
+            'order' => $order,
             'id' => $id
         ]);
     }

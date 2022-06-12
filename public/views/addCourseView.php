@@ -44,7 +44,8 @@ $imgSelected = in_array($imgSelected, ['sherlock.jpg', 'eye.jpg', 'globe.png']) 
             <textarea class="form-control" id="description" name="description" rows="3"><?= $course ? $course->getDescription() : '' ?></textarea>
         </div>
         <div class="mb-3">
-            <button id="btnAddStep" class="btn btn-outline-success"><i class="fa fa-plus"></i> Ajouter une étape</button>
+            <button id="btnAddStep" class="btn btn-outline-success" <?php echo isset($steps) ? (count($steps) > 9 ? 'disabled' : '') : ''; ?>><i class="fa fa-plus"></i> Ajouter une étape</button>
+            <br><i id="infoMaxEtape" class="<?php echo isset($steps) ? (count($steps) > 9 ? '' : 'hide-custom') : 'hide-custom'; ?>">Nombre maximum d'étape atteint</i>
         </div>
         <div class="mb-3 <?php echo !isset($steps) || count($steps) == 0 ? 'hide-custom' : ''; ?>" id="divStepTable">
             <table class="table table-bordered" id="stepTable" data-count="0">
@@ -58,12 +59,12 @@ $imgSelected = in_array($imgSelected, ['sherlock.jpg', 'eye.jpg', 'globe.png']) 
                 <tbody>
                     <?php 
                         if(isset($steps)){
-                            foreach($steps as $index=>$step) {
+                            foreach($steps as $step) {
                                 $answers = Answer::findAllByStepId($step->getId());
                     ?>
                                 <tr id="step_<?php echo $step->getId(); ?>">
-                                    <td><span class="num-step"><?php echo $index+1 ?></span></td>
-                                    <td><a href="javascript:void(0)" class="change-step" data-id="<?php echo $step->getId(); ?>" data-name="<?php echo $step->getName(); ?>" data-description="<?php echo $step->getDescription(); ?>" data-question="<?php echo $step->getQuestion(); ?>" data-answer1="<?php echo $answers[0]->getLibelle(); ?>" data-answer2="<?php echo $answers[1]->getLibelle(); ?>" data-answer3="<?php echo $answers[2]->getLibelle(); ?>" data-indice="<?php echo $step->getIndice(); ?>" ><?php echo $step->getName(); ?></a></td>
+                                    <td><span class="num-step"><?php echo $step->getOrder() ?></span></td>
+                                    <td><a href="javascript:void(0)" class="change-step" data-id="<?php echo $step->getId(); ?>" data-order="<?php echo $step->getOrder(); ?>" data-name="<?php echo $step->getName(); ?>" data-description="<?php echo $step->getDescription(); ?>" data-question="<?php echo $step->getQuestion(); ?>" data-answer1="<?php echo $answers[0]->getLibelle(); ?>" data-answer2="<?php echo $answers[1]->getLibelle(); ?>" data-answer3="<?php echo $answers[2]->getLibelle(); ?>" data-indice="<?php echo $step->getIndice(); ?>" ><?php echo $step->getName(); ?></a></td>
                                     <td><a href="javascript:void(0)" data-id="<?php echo $step->getId(); ?>" class="remove-step"><i class="fa fa-times fa-xl text-danger"></i></a></td>
                                 </tr>
                     <?php 
@@ -79,6 +80,7 @@ $imgSelected = in_array($imgSelected, ['sherlock.jpg', 'eye.jpg', 'globe.png']) 
                     foreach($steps as $index=>$step) {
                         $answers = Answer::findAllByStepId($step->getId());
                         $val = [
+                            "order" => $step->getOrder(),
                             "name" => $step->getName(),
                             "description" => $step->getDescription(),
                             "question" => $step->getQuestion(),

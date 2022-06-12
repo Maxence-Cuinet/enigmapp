@@ -9,6 +9,8 @@ $(document).ready(() => {
         $('#answer1AddStep').val('')
         $('#answer2AddStep').val('')
         $('#answer3AddStep').val('')
+        $('#indiceAddStep').val('')
+        $('#orderAddStep').val('')
         $('#addStepModalLabel').text('Ajouter une étape')
 
         $('#btnSubmitAddStep').show()
@@ -18,6 +20,7 @@ $(document).ready(() => {
 
     $(document).on('submit', '#formAddStep', function(e){
         e.preventDefault()
+        let order = encodeHTMLEntities($('#orderAddStep').val())
         let name = encodeHTMLEntities($('#nameAddStep').val())
         let description = encodeHTMLEntities($('#descriptionAddStep').val())
         let question = encodeHTMLEntities($('#questionAddStep').val())
@@ -28,7 +31,7 @@ $(document).ready(() => {
 
         let rows = $('#stepTable > tbody > tr')
         let id = 1 + Math.floor(Math.random() * 1000) + Date.now(); //Génère un nb aléatoire en 1 et 1000 
-        let tr = $('<tr id="step_'+id+'"><td><span class="num-step"></span></td><td><a href="javascript:void(0)" class="change-step" data-id="'+id+'" data-name="'+name+'" data-description="'+description+'" data-question="'+question+'" data-answer1="'+answer1+'" data-answer2="'+answer2+'" data-answer3="'+answer3+'" data-indice="'+indice+'">'+name+'</a></td><td><a href="javascript:void(0)" data-id="'+id+'" class="remove-step"><i class="fa fa-times fa-xl text-danger"></i></a></td></tr>')
+        let tr = $('<tr id="step_'+id+'"><td><span class="num-step">'+order+'</span></td><td><a href="javascript:void(0)" class="change-step" data-id="'+id+'" data-order="'+order+'" data-name="'+name+'" data-description="'+description+'" data-question="'+question+'" data-answer1="'+answer1+'" data-answer2="'+answer2+'" data-answer3="'+answer3+'" data-indice="'+indice+'">'+name+'</a></td><td><a href="javascript:void(0)" data-id="'+id+'" class="remove-step"><i class="fa fa-times fa-xl text-danger"></i></a></td></tr>')
         rows.push(tr)
         drawStepTable(rows)
 
@@ -36,13 +39,14 @@ $(document).ready(() => {
         $('#divStepTable').slideDown()
 
         let val = JSON.stringify({
+            "order": order,
             "name": name,
             "description": description,
             "question": question,
             "url_img": "/img/step.png", //On ne gère pas encore l'upload de fichier à faire plus tard
             "answer1": answer1,
             "answer2": answer2,
-            "answer3": answer2,
+            "answer3": answer3,
             "indice": indice,
         })
 
@@ -53,6 +57,7 @@ $(document).ready(() => {
 
     $(document).on('click', '#btnSubmitChangeStep', function(e){
         e.preventDefault()
+        let order = encodeHTMLEntities($('#orderAddStep').val())
         let name = encodeHTMLEntities($('#nameAddStep').val())
         let description = encodeHTMLEntities($('#descriptionAddStep').val())
         let question = encodeHTMLEntities($('#questionAddStep').val())
@@ -67,7 +72,7 @@ $(document).ready(() => {
 
         let rows = $('#stepTable > tbody > tr')
         let id = 1 + Math.floor(Math.random() * 1000) + Date.now(); //Génère un nb aléatoire en 1 et 1000
-        let tr = $('<tr id="step_'+id+'"><td><span class="num-step"></span></td><td><a href="javascript:void(0)" class="change-step" data-id="'+id+'" data-name="'+name+'" data-description="'+description+'" data-question="'+question+'" data-answer1="'+answer1+'" data-answer2="'+answer2+'" data-answer3="'+answer3+'" data-indice="'+indice+'">'+name+'</a></td><td><a href="javascript:void(0)" data-id="'+id+'" class="remove-step"><i class="fa fa-times fa-xl text-danger"></i></a></td></tr>')
+        let tr = $('<tr id="step_'+id+'"><td><span class="num-step">'+order+'</span></td><td><a href="javascript:void(0)" class="change-step" data-id="'+id+'" data-order="'+order+'" data-name="'+name+'" data-description="'+description+'" data-question="'+question+'" data-answer1="'+answer1+'" data-answer2="'+answer2+'" data-answer3="'+answer3+'" data-indice="'+indice+'">'+name+'</a></td><td><a href="javascript:void(0)" data-id="'+id+'" class="remove-step"><i class="fa fa-times fa-xl text-danger"></i></a></td></tr>')
         rows.push(tr)
         drawStepTable(rows)
 
@@ -75,13 +80,14 @@ $(document).ready(() => {
         $('#divStepTable').slideDown()
 
         let val = JSON.stringify({
+            "order": order,
             "name": name,
             "description": description,
             "question": question,
             "url_img": "/img/step.png", //On ne gère pas encore l'upload de fichier à faire plus tard
             "answer1": answer1,
             "answer2": answer2,
-            "answer3": answer2,
+            "answer3": answer3,
             "indice": indice.replace('"', '\\"'),
         })
 
@@ -91,6 +97,7 @@ $(document).ready(() => {
     })
     $(document).on('click', '.change-step', function(e){
         e.preventDefault()
+        let order = $(this).data('order')
         let name = $(this).data('name')
         let description = $(this).data('description')
         let question = $(this).data('question')
@@ -111,6 +118,7 @@ $(document).ready(() => {
         $('#answer2AddStep').val(answer2)
         $('#answer3AddStep').val(answer3)
         $('#indiceAddStep').val(indice)
+        $('#orderAddStep').val(order)
         $('#addStepModalLabel').text('Modifier une étape')
 
         $('#addStepModal').modal('show')
@@ -132,8 +140,14 @@ $(document).ready(() => {
 function drawStepTable(rows){
     $('#stepTable > tbody').html('')
     for(let i = 0; i<rows.length; i++){
-        $(rows[i]).find('.num-step').text(i+1)
         $('#stepTable > tbody').append(rows[i])
+    }
+    if($('#stepTable > tbody > tr').length > 9){
+        $('#btnAddStep').attr('disabled', true)
+        $('#infoMaxEtape').show()
+    }else{
+        $('#btnAddStep').attr('disabled', false)
+        $('#infoMaxEtape').hide()
     }
 }
 
