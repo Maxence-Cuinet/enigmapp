@@ -3,10 +3,10 @@
 class Connexion
 {
     private static array $dbParams = [
-        'host' => 'localhost',
-        'dbName' => 'enigmapp',
-        'user' => 'root',
-        'password' => ''
+        'host' => 'mysql-enigmapp.alwaysdata.net',
+        'dbName' => 'enigmapp_bdd',
+        'user' => 'enigmapp_admin',
+        'password' => '@dminEn1gm@pp'
     ];
 
     public static function connect()
