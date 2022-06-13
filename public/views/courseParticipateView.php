@@ -70,6 +70,9 @@ if (!$actualStep) {
             <div class="modal-body text-muted text-center">
                 <div class="alert alert-warning d-none first-error-alert" role="alert">
                     Ce n'est pas la bonne réponse ! Tu as encore 1 essai.
+                    <?php if ($actualStep->getIndice()) { ?>
+                        <br>Voici un indice : <?= $actualStep->getIndice() ?>
+                    <?php } ?>
                 </div>
                 <?php
                 $answers = Answer::findAllByStepId($actualStep->getId());
