@@ -79,24 +79,25 @@ $imgSelected = in_array($imgSelected, ['sherlock.jpg', 'eye.jpg', 'globe.png']) 
                 if(isset($steps)){
                     foreach($steps as $index=>$step) {
                         $answers = Answer::findAllByStepId($step->getId());
-                        $val = [
+                        $val = json_encode([
                             "order" => $step->getOrder(),
                             "name" => $step->getName(),
                             "description" => $step->getDescription(),
                             "question" => $step->getQuestion(),
-                            "url_img" => "/img/step.png", // Upload d'image non géré
+                            "url_img" => '/img/step.png', // Upload d'image non géré
                             "answer1" => $answers[0]->getLibelle(),
                             "answer2" => $answers[1]->getLibelle(),
                             "answer3" => $answers[2]->getLibelle(),
                             "indice" => $step->getIndice()
-                        ]
+                        ]);
             ?>
-                        <input id="input_step_<?php echo $step->getId() ?>" type="hidden" name="step[]" value='<?php echo json_encode($val) ?>'>
+                        <input id="input_step_<?php echo $step->getId() ?>" type="hidden" name="step[]" value=<?php echo $val ?>>
             <?php 
                     }
                 }   
             ?>
         </div>
+        <?php //echo json_encode($val); ?>
         <input type="hidden" id="courseId" name="courseId" value="<?= $course ? $course->getId() : '' ?>">
         <button type="submit" class="btn btn-primary"><?php echo isset($course) ? "Modifier" : "Ajouter" ?></button>
     </form>
