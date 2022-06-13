@@ -78,8 +78,11 @@ class Course
         $req->execute(['id' => $id]);
 
         $course = $req->fetch();
-        $created_at = new DateTime($course['created_at']);
-        $updated_at = new DateTime($course['updated_at']);
+        if ($course) {
+            $created_at = new DateTime($course['created_at']);
+            $updated_at = new DateTime($course['updated_at']);
+        }
+        
         return $course ? new course($course['id'], $course['name'], $course['url_img'], $course['description'], $created_at, $updated_at) : false;
     }
 
