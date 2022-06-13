@@ -10,10 +10,10 @@ class Step
     private string $question;
     private int $answer_id;
     private int $course_id;
-    private string $indice;
+    private ?string $indice;
     private int $order;
 
-    public function __construct(int $id, string $name, string $url_img, string $description, string $question, int $answer_id, int $course_id, string $indice, int $order)
+    public function __construct(int $id, string $name, string $url_img, string $description, string $question, int $answer_id, int $course_id, ?string $indice, int $order)
     {
         $this->id = $id;
         $this->name = $name;
