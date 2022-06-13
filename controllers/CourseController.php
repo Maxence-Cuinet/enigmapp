@@ -18,7 +18,9 @@ class CourseController
 
     public static function participateView()
     {
-        AuthController::redirectIfNotLogged();
+        if (!AuthController::isLogged()) {
+            header("Location: /connection" . ($_GET['courseId'] ? '?redirect=' . $_GET['courseId'] : ''));
+        }
 
         $participationInProgress = Participation::findInProgressByUserId($_SESSION['user']['id']);
         if ($participationInProgress) {

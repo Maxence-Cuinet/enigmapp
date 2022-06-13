@@ -62,7 +62,11 @@ class AuthController
             $_SESSION['user']['mail'] = $user->getMail();
             $_SESSION['user']['username'] = $user->getUsername();
             $_SESSION['user']['is_admin'] = $user->isAdmin();
-            header("Location: /");
+            if (isset($_GET['redirect'])) {
+                header("Location: /course/infos?courseId={$_GET['redirect']}");
+            } else {
+                header("Location: /");
+            }
         } else {
             $_POST['errors'][] = "L'email ou le mot de passe est incorrect.";
             unset($_POST['password']);
