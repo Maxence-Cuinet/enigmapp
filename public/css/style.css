@@ -44,6 +44,7 @@ tr[data-href] {
     cursor: pointer;
 }
 
+
 @media (min-width: 768px) {
     form {
         width: 70%;
@@ -72,3 +73,5 @@ tr[data-href] {
         width: 40%;
     }
 }
+
+#map { height: 180px; }
