@@ -23,6 +23,10 @@ class CourseController
         }
 
         $participationInProgress = Participation::findInProgressByUserId($_SESSION['user']['id']);
+        if ($participationInProgress && $participationInProgress->getCourseId() !== (int) $_GET['courseId']) {
+            $participationInProgress->finish(true);
+            $participationInProgress = false;
+        }
         if (!$participationInProgress) {
             $participationInProgress = Participation::create($_SESSION['user']['id'], $_GET['courseId'], 'inProgress');
         }
