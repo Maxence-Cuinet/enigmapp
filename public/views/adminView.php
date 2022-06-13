@@ -20,12 +20,6 @@ $search = $_GET['q'] ?? null;
             <a class="text-dark ms-3"><i class="fa-solid fa-list fa-xl"></i></a>
         </div>
     </div>
-    <div class="d-flex justify-content-end mb-5">
-        <form class="input-group search">
-            <input type="text" class="form-control" id="search" value="<?= $search ?>"><label for="search"></label>
-            <button type="submit" class="btn btn-outline-secondary" id="search-button">Recherche</button>
-        </form>
-    </div>
     <?php if (empty($_POST['courses'])) {?>
         <div class="row mt-5">
             <div class="col text-center">
@@ -33,6 +27,12 @@ $search = $_GET['q'] ?? null;
             </div>
         </div>
     <?php } else { ?>
+        <div class="d-flex justify-content-end mb-5">
+            <form class="input-group search">
+                <input type="text" class="form-control" id="search" value="<?= $search ?>"><label for="search"></label>
+                <button type="submit" class="btn btn-outline-secondary" id="search-button">Recherche</button>
+            </form>
+        </div>
         <div class="table-responsive">
             <table class="table table-striped table-hover">
                 <thead>

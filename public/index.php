@@ -67,10 +67,16 @@ switch ($request[0]) {
             case 'infos':
                 CourseController::courseInfosView();
                 break;
+            case 'participate':
+                CourseController::participateView();
+                break;
         }
         break;
     case 'users':
         UserController::getAllUsers();
+        break;
+    case 'step':
+        CourseController::getOneStep($request[1] ?? null);
         break;
     default:
         http_response_code(404);

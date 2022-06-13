@@ -15,16 +15,17 @@ if (!$course) {
 <?php include_once __DIR__ . '/../template/nav.php' ?>
 
 <section id="pageContent" class="container">
-    <form action="/course/participate">
+    <form>
         <h3 class="mb-4"><?= $course->getName() ?></h3>
-        <img src="<?= $course->getUrlImg() ?>" class="rounded mb-4" height="270" alt="...">
+        <img src="<?= $course->getUrlImg() ?>" class="rounded mb-4 bg-white" height="270" alt="...">
         <div class="alert alert-light">
             <?= $course->getDescription() ?>
         </div>
         <div>
+            <small class="text-muted">Ce jeu de piste contient <?= Step::countByCourseId($course->getId()) ?> étapes</small>
             <small class="float-end text-muted">Dernière modification le <?= $course->getUpdatedAt()->format('d/m/Y à H:i') ?></small>
         </div>
-        <button type="submit" class="btn btn-primary mt-5">Confirmer la participation</button>
+        <a type="button" href="/course/participate?courseId=<?= $course->getId() ?>" class="btn btn-primary mt-5">Confirmer la participation</a>
     </form>
 </section>
 

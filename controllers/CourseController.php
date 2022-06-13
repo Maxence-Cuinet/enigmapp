@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../models/Course.php';
 require_once __DIR__ . '/../models/Step.php';
 require_once __DIR__ . '/../models/Answer.php';
+require_once __DIR__ . '/../models/Participation.php';
 
 class CourseController
 {
@@ -13,6 +14,27 @@ class CourseController
     public static function addCourseView()
     {
         require __DIR__ . '/../public/views/addCourseView.php';
+    }
+
+    public static function participateView()
+    {
+        AuthController::redirectIfNotLogged();
+
+        $participationInProgress = Participation::findInProgressByUserId($_SESSION['user']['id']);
+        if ($participationInProgress) {
+            $_POST['participation']['id'] = $participationInProgress->getId();
+        } else {
+            $participation = Participation::create($_SESSION['user']['id'], $_GET['courseId'], 'inProgress');
+            $_POST['participation']['id'] = $participation->getId();
+        }
+
+        if (isset($_POST['next-step'])) {
+            $_POST['participation']['actualStep'] = $_POST['next-step'];
+        } else {
+            $_POST['participation']['actualStep'] = 0;
+        }
+
+        require __DIR__ . '/../public/views/courseParticipateView.php';
     }
 
     public static function addCourse()
@@ -86,5 +108,21 @@ class CourseController
             ], JSON_UNESCAPED_UNICODE);
         }
         die;
+    }
+
+    public static function getOneStep(?int $id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+            header('HTTP/1.1 404 Not Found');die;
+        }
+
+        if ($id === null) {
+            header('HTTP/1.1 400 Bad Request');die;
+        }
+
+        $users = Step::findById($id, true);
+        header('HTTP/1.1 200 Ok');
+        header('Content-Type: application/json');
+        echo json_encode($users, JSON_PRETTY_PRINT);
     }
 }

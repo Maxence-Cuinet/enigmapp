@@ -10,10 +10,10 @@ class Step
     private string $question;
     private int $answer_id;
     private int $course_id;
-    private string $indice;
+    private ?string $indice;
     private int $order;
 
-    public function __construct(int $id, string $name, string $url_img, string $description, string $question, int $answer_id, int $course_id, string $indice, int $order)
+    public function __construct(int $id, string $name, string $url_img, string $description, string $question, int $answer_id, int $course_id, ?string $indice, int $order)
     {
         $this->id = $id;
         $this->name = $name;
@@ -111,18 +111,31 @@ class Step
         $this->order = $order;
     }
 
-    /**
-     * @param int $id
-     * @return Step|false
-     */
-    public static function findById(int $id)
+    public static function findById(int $id, bool $asArray = false)
     {
         $pdo = Connexion::connect();
         $req = $pdo->prepare('SELECT * FROM step WHERE id = :id');
         $req->execute(['id' => $id]);
 
         $step = $req->fetch();
-        return $step ? new Step($step['id'], $step['name'], $step['url_img'], $step['description'], $step['question'], $step['answer_id'], $step['course_id'], $step['indice'], $step['order']) : false;
+        if ($step) {
+            if ($asArray) {
+                return [
+                    'id' => $step['id'],
+                    'name' => $step['name'],
+                    'url_img' => $step['url_img'],
+                    'description' => $step['description'],
+                    'question' => $step['question'],
+                    'answer_id' => $step['answer_id'],
+                    'course_id' => $step['course_id'],
+                    'indice' => $step['indice'],
+                    'order' => $step['order']
+                ];
+            } else {
+                return new Step($step['id'], $step['name'], $step['url_img'], $step['description'], $step['question'], $step['answer_id'], $step['course_id'], $step['indice'], $step['order']);
+            }
+        }
+        return false;
     }
 
     public static function findAllByCourseId(int $course_id): array
@@ -138,6 +151,16 @@ class Step
             $steps[] = new Step($step['id'], $step['name'], $step['url_img'], $step['description'], $step['question'], $step['answer_id'], $step['course_id'], $step['indice'], $step['order']);
         }
         return $steps;
+    }
+
+    public static function countByCourseId(int $course_id): int
+    {
+        $pdo = Connexion::connect();
+        $req = $pdo->prepare('SELECT count(*) as count FROM step where course_id = :id');
+        $req->bindParam("id", $course_id, PDO::PARAM_INT);
+        $req->execute();
+        $result = $req->fetch();
+        return $result['count'];
     }
 
     public static function create(string $name, string $url_img, string $description, string $question, int $answer_id, int $course_id, ?string $indice, int $order)
@@ -181,7 +204,7 @@ class Step
         return $req->execute(['id' => $id]);
     }
 
-    public static function deleteAllByCourseId(int $course_id)
+    public static function deleteAllByCourseId(int $course_id): bool
     {
         $pdo = Connexion::connect();
         $req = $pdo->prepare('DELETE FROM step WHERE course_id = :id');
