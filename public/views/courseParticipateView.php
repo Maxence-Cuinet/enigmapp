@@ -12,7 +12,8 @@ $nbStep = count($steps);
 $actualStep = $_POST['participation']['actualStep'] < $nbStep ? $steps[$_POST['participation']['actualStep']] : null;
 
 if (!$actualStep) {
-    $actualStep->courseFinish();
+    $participation = Participation::findById($_POST['participation']['id']);
+    $participation->finish();
 }
 ?>
 
