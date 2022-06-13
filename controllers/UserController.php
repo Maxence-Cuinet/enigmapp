@@ -50,7 +50,7 @@ class UserController
     public static function getAllUsers()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
-            header('HTTP/1.1 404 Not found');die;
+            header('HTTP/1.1 404 Not Found');die;
         }
 
         $users = User::findAll(true);
