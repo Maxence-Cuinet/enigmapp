@@ -3,9 +3,11 @@ AuthController::redirectIfNotLogged(true);
 $course = null;
 if (isset($_GET['courseId'])) {
     $course = Course::findById($_GET['courseId']);
-    $steps = Step::findAllByCourseId($course->getId());
+    
     if (!$course) {
         header("Location: /course/create");
+    } else {
+       $steps = Step::findAllByCourseId($course->getId()); 
     }
 }
 

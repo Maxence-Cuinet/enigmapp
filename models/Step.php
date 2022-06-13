@@ -183,7 +183,8 @@ class Step
     public static function update(int $id, string $name, string $url_img, string $description, string $question, int $answer_id, int $course_id, ?string $indice, $order): bool
     {
         $pdo = Connexion::connect();
-        $req = $pdo->prepare('UPDATE step SET name = :name, url_img = :url_img, description = :description, question = :question, answer_id = :answer_id, course_id = :course_id, indice = :indice, order = :order WHERE id = :id');
+        $req = $pdo->prepare('UPDATE step SET name = :name, url_img = :url_img, description = :description, question = :question, answer_id = :answer_id, course_id = :course_id, indice = :indice, `order` = :order WHERE id = :id');
+        
         return $req->execute([
             'name' => $name, 
             'url_img' => $url_img, 
