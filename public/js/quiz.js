@@ -28,4 +28,15 @@ $(document).ready(() => {
             }
         })
     });
+
+    $(document.body).on("click","#btn-abandon", function () {
+        $.ajax({
+            url: '/course/participate/abandon',
+            method: "POST",
+            success: () => {
+                window.location.href = '/';
+            }
+        })
+    });
+
 });

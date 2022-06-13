@@ -125,4 +125,13 @@ class CourseController
         header('Content-Type: application/json');
         echo json_encode($users, JSON_PRETTY_PRINT);
     }
+
+    public static function participationAbandon()
+    {
+        $participationInProgress = Participation::findInProgressByUserId($_SESSION['user']['id']);
+        if ($participationInProgress) {
+            $participationInProgress->finish(true);
+            header("Location: /");
+        }
+    }
 }

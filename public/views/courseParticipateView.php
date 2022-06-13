@@ -29,7 +29,10 @@ if (!$actualStep) {
 <section id="pageContent" class="container">
     <?php if ($actualStep) { ?>
         <form action="/course/participate?courseId=<?= $course->getId() ?>" method="post">
-            <h3 class="mb-4"><?= $course->getName() ?></h3>
+            <div class="d-flex flex-column-reverse flex-md-row">
+                <h3 class="mb-4 me-4"><?= $course->getName() ?></h3>
+                <div class="mb-4"><button type="button" class="btn btn-danger" id="btn-abandon">Abandonner</button></div>
+            </div>
             <h4 class="mb-4"><?= $actualStep->getName() ?></h4>
             <img src="<?= $actualStep->getUrlImg() ?>" class="rounded mb-4 bg-white" height="220" alt="...">
             <div class="alert alert-light mb-5">
