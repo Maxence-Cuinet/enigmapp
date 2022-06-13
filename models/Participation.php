@@ -38,7 +38,7 @@ class Participation
     /**
      * @return int
      */
-    public function getIdUser(): int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
@@ -46,7 +46,7 @@ class Participation
     /**
      * @param int $user_id
      */
-    public function setIdUser(int $user_id): void
+    public function setUserId(int $user_id): void
     {
         $this->user_id = $user_id;
     }
@@ -54,7 +54,7 @@ class Participation
     /**
      * @return int
      */
-    public function getIdCourse(): int
+    public function getCourseId(): int
     {
         return $this->course_id;
     }
@@ -62,7 +62,7 @@ class Participation
     /**
      * @param int $course_id
      */
-    public function setIdCourse(int $course_id): void
+    public function setCourseId(int $course_id): void
     {
         $this->course_id = $course_id;
     }
@@ -207,7 +207,7 @@ class Participation
         return $rep ? new Participation($pdo->lastInsertId(), $user_id, $course_id, $date, null, $state) : $rep;
     }
 
-    public static function update(int $user_id, int $course_id, DateTime $start_date, DateTime $end_date, string $state): bool
+    public function update(int $user_id, int $course_id, DateTime $start_date, DateTime $end_date, string $state): bool
     {
         $pdo = Connexion::connect();
         $req = $pdo->prepare('UPDATE participation SET user_id = :user_id, course_id = :course_id, start_date = :start_date, end_date = :end_date, state = :state WHERE id = :id');
@@ -216,8 +216,17 @@ class Participation
             'course_id' => $course_id,
             'start_date' => $start_date,
             'end_date' => $end_date,
-            'state' => $state
+            'state' => $state,
+            'id' => $this->getId()
         ]);
+    }
+
+    public function courseFinish()
+    {
+        $endDate = new DateTime();
+        $timezone = new DateTimeZone('Europe/Paris');
+        $endDate->setTimezone($timezone);
+        $this->update($this->getUserId(), $this->getCourseId(), $this->getDateStart(), $endDate, 'finish');
     }
 
     public function delete()

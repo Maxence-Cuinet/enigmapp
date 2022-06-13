@@ -10,6 +10,10 @@ if (!$course) {
 $steps = Step::findAllByCourseId($course->getId());
 $nbStep = count($steps);
 $actualStep = $_POST['participation']['actualStep'] < $nbStep ? $steps[$_POST['participation']['actualStep']] : null;
+
+if (!$actualStep) {
+    $actualStep->courseFinish();
+}
 ?>
 
 <!DOCTYPE html>
