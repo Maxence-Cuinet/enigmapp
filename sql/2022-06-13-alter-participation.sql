@@ -1,0 +1,1 @@
+ALTER TABLE participation add step int not null;

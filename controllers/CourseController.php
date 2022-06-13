@@ -23,17 +23,16 @@ class CourseController
         }
 
         $participationInProgress = Participation::findInProgressByUserId($_SESSION['user']['id']);
-        if ($participationInProgress) {
-            $_POST['participation']['id'] = $participationInProgress->getId();
-        } else {
-            $participation = Participation::create($_SESSION['user']['id'], $_GET['courseId'], 'inProgress');
-            $_POST['participation']['id'] = $participation->getId();
+        if (!$participationInProgress) {
+            $participationInProgress = Participation::create($_SESSION['user']['id'], $_GET['courseId'], 'inProgress');
         }
+        $_POST['participation']['id'] = $participationInProgress->getId();
 
         if (isset($_POST['next-step'])) {
+            $participationInProgress->updateStep($_POST['next-step']);
             $_POST['participation']['actualStep'] = $_POST['next-step'];
         } else {
-            $_POST['participation']['actualStep'] = 0;
+            $_POST['participation']['actualStep'] = $participationInProgress->getStep();
         }
 
         require __DIR__ . '/../public/views/courseParticipateView.php';

@@ -1,5 +1,7 @@
 <?php
 $_SESSION['homeView'] = 'default';
+
+$participationInProgress = Participation::findInProgressByUserId($_SESSION['user']['id']);
 ?>
 
 <!DOCTYPE html>
@@ -20,19 +22,27 @@ $_SESSION['homeView'] = 'default';
             </div>
         <?php } ?>
     </div>
-    <?php if (empty($_POST['courses'])) {?>
+    <div class="d-flex justify-content-end mb-5">
+        <form class="input-group search">
+            <input type="text" class="form-control" id="search" value="<?= $_GET['q'] ?? null ?>"><label for="search"></label>
+            <button type="submit" class="btn btn-outline-secondary" id="search-button">Recherche</button>
+        </form>
+    </div>
+    <?php if (empty($_POST['courses'])) { ?>
         <div class="row mt-5">
             <div class="col text-center">
                 <h1>Aucun jeu de piste enregistré. <i class="fa fa-face-sad-cry text-warning"></i></h1>
             </div>
         </div>
     <?php } else { ?>
-        <div class="d-flex justify-content-end mb-5">
-            <form class="input-group search">
-                <input type="text" class="form-control" id="search" value="<?= $_GET['q'] ?? null ?>"><label for="search"></label>
-                <button type="submit" class="btn btn-outline-secondary" id="search-button">Recherche</button>
-            </form>
-        </div>
+        <?php if ($participationInProgress) { ?>
+            <div class="d-flex mb-4">
+                <div class="alert alert-info" role="alert">
+                    <span class="me-4">Vous avez un jeu de piste en cours.</span>
+                    <a type="button" class="btn btn-info" href="/course/participate?courseId=<?= $participationInProgress->getCourseId() ?>">Reprendre le jeu</a>
+                </div>
+            </div>
+        <?php } ?>
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
             <?php
             $courses = $_POST['courses'];
