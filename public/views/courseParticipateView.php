@@ -46,15 +46,16 @@ if (!$actualStep) {
                 Dommage... Tu n'as pas réussi à trouver la bonne réponse. <br>
                 Tu feras peut-être mieux avec la prochaine étape.
             </div>
+            <input type="hidden" id="score" name="score" value="100">
             <button type="button" class="btn btn-primary btn-lg btn-quiz" data-bs-toggle="modal" data-bs-target="#quizModal">Afficher le Quiz !</button>
             <button type="submit" class="btn btn-primary btn-lg d-none btn-next-step" name="next-step"
                     value="<?= $_POST['participation']['actualStep'] + 1 ?>">Prochaine étape</button>
         </form>
     <?php } else { ?>
         <div class="alert alert-success win-alert" role="alert">
-            <h3>Félicitation !</h3>
+            <h3>Félicitation <strong><?= $_SESSION['user']['username'] ?></strong> !</h3>
             Tu as terminé le jeu de piste : <strong><?= $course->getName() ?></strong><br>
-            Ton score est de ***
+            Ton score est de <strong><?= $participation->getScore() ?></strong>
         </div>
         <a type="button" class="btn btn-primary btn-lg" href="/">Retour à la liste des jeux de pistes</a>
     <?php } ?>

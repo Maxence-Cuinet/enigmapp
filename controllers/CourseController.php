@@ -34,6 +34,7 @@ class CourseController
 
         if (isset($_POST['next-step'])) {
             $participationInProgress->updateStep($_POST['next-step']);
+            $participationInProgress->addScore($_POST['score']);
             $_POST['participation']['actualStep'] = $_POST['next-step'];
         } else {
             $_POST['participation']['actualStep'] = $participationInProgress->getStep();

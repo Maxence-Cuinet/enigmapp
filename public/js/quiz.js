@@ -15,6 +15,7 @@ $(document).ready(() => {
                     $('.win-alert').removeClass('d-none')
                     $('.btn-next-step').removeClass('d-none')
                 } else {
+                    $('#score').val($('#score').val() - 50)
                     let errorAlert = $('.first-error-alert');
                     if (errorAlert.hasClass('d-none')) {
                         errorAlert.removeClass('d-none')
