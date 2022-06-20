@@ -5,7 +5,7 @@
 <?php include_once __DIR__ . '/../template/nav.php' ?>
 
 <section id="pageContent" class="container">
-    <form class="authForm m-auto" action="/connection/login<?= $_GET['redirect'] ? '?redirect=' . $_GET['redirect'] : '' ?>" method="post">
+    <form class="authForm m-auto" action="/connection/login<?= isset($_GET['redirect']) ? '?redirect=' . $_GET['redirect'] : '' ?>" method="post">
         <?php include_once __DIR__ . '/../template/displayErrorsSuccess.php' ?>
         <div class="mb-3">
             <label for="login" class="form-label">Email ou nom d'utilisateur</label>
