@@ -7,8 +7,11 @@ if (!$course) {
     header("Location: /");
 }
 
+$participationInProgress = false;
+if (AuthController::isLogged()) {
+    $participationInProgress = Participation::findInProgressByUserId($_SESSION['user']['id']);
+}
 $thisCourseIsInProgress = false;
-$participationInProgress = Participation::findInProgressByUserId($_SESSION['user']['id']);
 if ($participationInProgress && $participationInProgress->getCourseId() === $course->getId()) {
     $thisCourseIsInProgress = true;
 }

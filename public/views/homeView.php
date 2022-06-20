@@ -1,7 +1,10 @@
 <?php
 $_SESSION['homeView'] = 'default';
 
-$participationInProgress = Participation::findInProgressByUserId($_SESSION['user']['id']);
+$participationInProgress = false;
+if (AuthController::isLogged()) {
+    $participationInProgress = Participation::findInProgressByUserId($_SESSION['user']['id']);
+}
 ?>
 
 <!DOCTYPE html>

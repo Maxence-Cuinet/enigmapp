@@ -247,7 +247,7 @@ class Participation
     {
         $pdo = Connexion::connect();
         $req = $pdo->prepare('UPDATE participation SET user_id = :user_id, course_id = :course_id, start_date = :start_date, end_date = :end_date, state = :state, step = :step, score = :score WHERE id = :id');
-        return $req->execute([
+        $rep = $req->execute([
             'user_id' => $user_id,
             'course_id' => $course_id,
             'start_date' => $start_date->format("Y-m-d H:i:s"),
@@ -257,6 +257,15 @@ class Participation
             'score' => $score,
             'id' => $this->getId()
         ]);
+        if ($rep) {
+            $this->setUserId($user_id);
+            $this->setCourseId($course_id);
+            $this->setDateStart($start_date);
+            $this->setDateEnd($end_date);
+            $this->setState($state);
+            $this->setStep($step);
+        }
+        return $rep;
     }
 
     public function finish(bool $abandon = false)
