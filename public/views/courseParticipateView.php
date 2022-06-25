@@ -29,7 +29,10 @@ if (!$actualStep) {
 <section id="pageContent" class="container">
     <?php if ($actualStep) { ?>
         <form action="/course/participate?courseId=<?= $course->getId() ?>" method="post">
-            <h3 class="mb-4"><?= $course->getName() ?></h3>
+            <div class="d-flex flex-column-reverse flex-md-row">
+                <h3 class="mb-4 me-4"><?= $course->getName() ?></h3>
+                <div class="mb-4"><button type="button" class="btn btn-danger" id="btn-abandon">Abandonner</button></div>
+            </div>
             <h4 class="mb-4"><?= $actualStep->getName() ?></h4>
             <img src="<?= $actualStep->getUrlImg() ?>" class="rounded mb-4 bg-white" height="220" alt="...">
             <div class="alert alert-light mb-5">
@@ -43,15 +46,16 @@ if (!$actualStep) {
                 Dommage... Tu n'as pas réussi à trouver la bonne réponse. <br>
                 Tu feras peut-être mieux avec la prochaine étape.
             </div>
+            <input type="hidden" id="score" name="score" value="100">
             <button type="button" class="btn btn-primary btn-lg btn-quiz" data-bs-toggle="modal" data-bs-target="#quizModal">Afficher le Quiz !</button>
             <button type="submit" class="btn btn-primary btn-lg d-none btn-next-step" name="next-step"
                     value="<?= $_POST['participation']['actualStep'] + 1 ?>">Prochaine étape</button>
         </form>
     <?php } else { ?>
         <div class="alert alert-success win-alert" role="alert">
-            <h3>Félicitation !</h3>
+            <h3>Félicitation <strong><?= $_SESSION['user']['username'] ?></strong> !</h3>
             Tu as terminé le jeu de piste : <strong><?= $course->getName() ?></strong><br>
-            Ton score est de ***
+            Ton score est de <strong><?= $participation->getScore() ?></strong>
         </div>
         <a type="button" class="btn btn-primary btn-lg" href="/">Retour à la liste des jeux de pistes</a>
     <?php } ?>
@@ -67,6 +71,9 @@ if (!$actualStep) {
             <div class="modal-body text-muted text-center">
                 <div class="alert alert-warning d-none first-error-alert" role="alert">
                     Ce n'est pas la bonne réponse ! Tu as encore 1 essai.
+                    <?php if ($actualStep->getIndice()) { ?>
+                        <br>Voici un indice : <?= $actualStep->getIndice() ?>
+                    <?php } ?>
                 </div>
                 <?php
                 $answers = Answer::findAllByStepId($actualStep->getId());

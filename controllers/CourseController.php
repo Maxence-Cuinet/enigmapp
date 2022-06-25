@@ -18,20 +18,26 @@ class CourseController
 
     public static function participateView()
     {
-        AuthController::redirectIfNotLogged();
-
-        $participationInProgress = Participation::findInProgressByUserId($_SESSION['user']['id']);
-        if ($participationInProgress) {
-            $_POST['participation']['id'] = $participationInProgress->getId();
-        } else {
-            $participation = Participation::create($_SESSION['user']['id'], $_GET['courseId'], 'inProgress');
-            $_POST['participation']['id'] = $participation->getId();
+        if (!AuthController::isLogged()) {
+            header("Location: /connection" . ($_GET['courseId'] ? '?redirect=' . $_GET['courseId'] : ''));
         }
 
+        $participationInProgress = Participation::findInProgressByUserId($_SESSION['user']['id']);
+        if ($participationInProgress && $participationInProgress->getCourseId() !== (int) $_GET['courseId']) {
+            $participationInProgress->finish(true);
+            $participationInProgress = false;
+        }
+        if (!$participationInProgress) {
+            $participationInProgress = Participation::create($_SESSION['user']['id'], $_GET['courseId'], 'inProgress');
+        }
+        $_POST['participation']['id'] = $participationInProgress->getId();
+
         if (isset($_POST['next-step'])) {
+            $participationInProgress->updateStep($_POST['next-step']);
+            $participationInProgress->addScore($_POST['score']);
             $_POST['participation']['actualStep'] = $_POST['next-step'];
         } else {
-            $_POST['participation']['actualStep'] = 0;
+            $_POST['participation']['actualStep'] = $participationInProgress->getStep();
         }
 
         require __DIR__ . '/../public/views/courseParticipateView.php';
@@ -124,5 +130,14 @@ class CourseController
         header('HTTP/1.1 200 Ok');
         header('Content-Type: application/json');
         echo json_encode($users, JSON_PRETTY_PRINT);
+    }
+
+    public static function participationAbandon()
+    {
+        $participationInProgress = Participation::findInProgressByUserId($_SESSION['user']['id']);
+        if ($participationInProgress) {
+            $participationInProgress->finish(true);
+            header("Location: /");
+        }
     }
 }

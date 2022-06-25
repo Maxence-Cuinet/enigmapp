@@ -8,6 +8,8 @@ class Participation
     private DateTime $start_date;
     private ?DateTime $end_date;
     private string $state;
+    private int $step;
+    private int $score;
 
     /**
      * @param int $id
@@ -16,8 +18,10 @@ class Participation
      * @param DateTime $start_date
      * @param ?DateTime $end_date
      * @param string $state
+     * @param int $step
+     * @param int $score
      */
-    public function __construct(int $id, int $user_id, int $course_id, DateTime $start_date, ?DateTime $end_date, string $state)
+    public function __construct(int $id, int $user_id, int $course_id, DateTime $start_date, ?DateTime $end_date, string $state, int $step, int $score)
     {
         $this->id = $id;
         $this->user_id = $user_id;
@@ -25,6 +29,8 @@ class Participation
         $this->start_date = $start_date;
         $this->end_date = $end_date;
         $this->state = $state;
+        $this->step = $step;
+        $this->score = $score;
     }
 
     /**
@@ -115,6 +121,38 @@ class Participation
         $this->state = $state;
     }
 
+    /**
+     * @return int
+     */
+    public function getStep(): int
+    {
+        return $this->step;
+    }
+
+    /**
+     * @param int $step
+     */
+    public function setStep(int $step): void
+    {
+        $this->step = $step;
+    }
+
+    /**
+     * @return int
+     */
+    public function getScore(): int
+    {
+        return $this->score;
+    }
+
+    /**
+     * @param int $score
+     */
+    public function setScore(int $score): void
+    {
+        $this->score = $score;
+    }
+
     public static function findById(int $id)
     {
         $pdo = Connexion::connect();
@@ -125,7 +163,7 @@ class Participation
         if ($participation) {
             $startDate = new DateTime($participation['start_date']);
             $endDate = new DateTime($participation['end_date']);
-            return new Participation($participation['id'], $participation['user_id'], $participation['course_id'], $startDate, $endDate, $participation['state']);
+            return new Participation($participation['id'], $participation['user_id'], $participation['course_id'], $startDate, $endDate, $participation['state'], $participation['step'], $participation['score']);
         }
         return false;
     }
@@ -140,7 +178,7 @@ class Participation
         if ($participation) {
             $startDate = new DateTime($participation['start_date']);
             $endDate = new DateTime($participation['end_date']);
-            return new Participation($participation['id'], $participation['user_id'], $participation['course_id'], $startDate, $endDate, $participation['state']);
+            return new Participation($participation['id'], $participation['user_id'], $participation['course_id'], $startDate, $endDate, $participation['state'], $participation['step'], $participation['score']);
         }
         return false;
     }
@@ -151,10 +189,9 @@ class Participation
         $req = $pdo->prepare('SELECT * FROM participation');
         $req->execute();
 
-        $participation = [];
         while ($participation = $req->fetch())
         {
-            $participation[] = new Participation($participation['id'], $participation['user_id'], $participation['course_id'], $participation['start_date'], $participation['end_date'], $participation['state']);
+            $participation[] = new Participation($participation['id'], $participation['user_id'], $participation['course_id'], $participation['start_date'], $participation['end_date'], $participation['state'], $participation['step'], $participation['score']);
         }
         return $participation;
     }
@@ -165,10 +202,9 @@ class Participation
         $req = $pdo->prepare('SELECT * FROM participation WHERE user_id = :user_id');
         $req->execute(['user_id' => $user_id]);
 
-        $participation = [];
         while ($participation = $req->fetch())
         {
-            $participation[] = new Participation($participation['id'], $participation['user_id'], $participation['course_id'], $participation['start_date'], $participation['end_date'], $participation['state']);
+            $participation[] = new Participation($participation['id'], $participation['user_id'], $participation['course_id'], $participation['start_date'], $participation['end_date'], $participation['state'], $participation['step'], $participation['score']);
         }
         return $participation;
     }
@@ -183,10 +219,9 @@ class Participation
         $req = $pdo->prepare('SELECT * FROM participation WHERE course_id = :course_id');
         $req->execute(['course_id' => $course_id]);
 
-        $participation = [];
         while ($participation = $req->fetch())
         {
-            $participation[] = new Participation($participation['id'], $participation['user_id'], $participation['course_id'], $participation['start_date'], $participation['end_date'], $participation['state']);
+            $participation[] = new Participation($participation['id'], $participation['user_id'], $participation['course_id'], $participation['start_date'], $participation['end_date'], $participation['state'], $participation['step'], $participation['score']);
         }
         return $participation;
     }
@@ -205,21 +240,32 @@ class Participation
             'start_date' => $date->format("Y-m-d H:i:s"),
             'state' => $state
         ]);
-        return $rep ? new Participation($pdo->lastInsertId(), $user_id, $course_id, $date, null, $state) : $rep;
+        return $rep ? new Participation($pdo->lastInsertId(), $user_id, $course_id, $date, null, $state, 0, 0) : $rep;
     }
 
-    public function update(int $user_id, int $course_id, DateTime $start_date, DateTime $end_date, string $state): bool
+    public function update(int $user_id, int $course_id, DateTime $start_date, DateTime $end_date, string $state, int $step, int $score): bool
     {
         $pdo = Connexion::connect();
-        $req = $pdo->prepare('UPDATE participation SET user_id = :user_id, course_id = :course_id, start_date = :start_date, end_date = :end_date, state = :state WHERE id = :id');
-        return $req->execute([
+        $req = $pdo->prepare('UPDATE participation SET user_id = :user_id, course_id = :course_id, start_date = :start_date, end_date = :end_date, state = :state, step = :step, score = :score WHERE id = :id');
+        $rep = $req->execute([
             'user_id' => $user_id,
             'course_id' => $course_id,
             'start_date' => $start_date->format("Y-m-d H:i:s"),
             'end_date' => $end_date->format("Y-m-d H:i:s"),
             'state' => $state,
+            'step' => $step,
+            'score' => $score,
             'id' => $this->getId()
         ]);
+        if ($rep) {
+            $this->setUserId($user_id);
+            $this->setCourseId($course_id);
+            $this->setDateStart($start_date);
+            $this->setDateEnd($end_date);
+            $this->setState($state);
+            $this->setStep($step);
+        }
+        return $rep;
     }
 
     public function finish(bool $abandon = false)
@@ -227,7 +273,17 @@ class Participation
         $endDate = new DateTime();
         $timezone = new DateTimeZone('Europe/Paris');
         $endDate->setTimezone($timezone);
-        $this->update($this->getUserId(), $this->getCourseId(), $this->getDateStart(), $endDate, $abandon ? 'abandon' : 'finish');
+        $this->update($this->getUserId(), $this->getCourseId(), $this->getDateStart(), $endDate, $abandon ? 'abandon' : 'finish', $this->getStep(), $abandon ? 0 : $this->getScore());
+    }
+
+    public function updateStep(int $step)
+    {
+        $this->update($this->getUserId(), $this->getCourseId(), $this->getDateStart(), $this->getDateEnd(), $this->getState(), $step, $this->getScore());
+    }
+
+    public function addScore(int $scoreAdded)
+    {
+        $this->update($this->getUserId(), $this->getCourseId(), $this->getDateStart(), $this->getDateEnd(), $this->getState(), $this->getStep(), $this->getScore() + $scoreAdded);
     }
 
     public function delete()

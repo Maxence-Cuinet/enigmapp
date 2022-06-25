@@ -99,7 +99,6 @@ $imgSelected = in_array($imgSelected, ['sherlock.jpg', 'eye.jpg', 'globe.png']) 
                 }   
             ?>
         </div>
-        <?php //echo json_encode($val); ?>
         <input type="hidden" id="courseId" name="courseId" value="<?= $course ? $course->getId() : '' ?>">
         <button type="submit" class="btn btn-primary"><?php echo isset($course) ? "Modifier" : "Ajouter" ?></button>
     </form>

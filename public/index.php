@@ -68,6 +68,10 @@ switch ($request[0]) {
                 CourseController::courseInfosView();
                 break;
             case 'participate':
+                switch ($request[2] ?? '') {
+                    case 'abandon':
+                        CourseController::participationAbandon();
+                }
                 CourseController::participateView();
                 break;
         }

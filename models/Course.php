@@ -161,4 +161,27 @@ class Course
         $req = $pdo->prepare('DELETE FROM course WHERE id = :id');
         return $req->execute(['id' => $id]);
     }
+
+    public function getRanking(): array
+    {
+        $pdo = Connexion::connect();
+        $req = $pdo->prepare("SELECT username, MAX(score) as best_score
+            FROM participation
+            INNER JOIN user ON participation.user_id = user.id
+            WHERE course_id = :course_id AND state = 'finish'
+            GROUP BY user_id
+            ORDER BY best_score desc
+            LIMIT 5"
+        );
+        $req->execute(['course_id' => $this->getId()]);
+        $ranks = [];
+        while ($rank = $req->fetch())
+        {
+            $ranks[] = [
+                'player' => $rank['username'],
+                'score' => $rank['best_score']
+            ];
+        }
+        return $ranks;
+    }
 }
